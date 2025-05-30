@@ -218,8 +218,8 @@ const ServerConfigurator = () => {
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-6">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-white mb-2">서버 구성 시스템</h1>
-          <p className="text-slate-300">드래그 앤 드롭으로 서버를 구성하세요</p>
+        <div className="text-center mb-8">
+        <img src="/logo.png" alt="서버 구성 시스템" className="mx-auto h-16" />
         </div>
 
         {/* 서버 선택 */}
