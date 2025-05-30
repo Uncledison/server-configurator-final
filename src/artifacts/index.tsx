@@ -352,7 +352,7 @@ ${errors.map((error, index) => `${index + 1}. ${error}`).join('\n')}
   };
 
   // 클립보드 복사 대체 방법
-  const fallbackCopyToClipboard = (text) => {
+  const fallbackCopyToClipboard = (text: string) => {
     const textArea = document.createElement('textarea');
     textArea.value = text;
     textArea.style.position = 'fixed';
