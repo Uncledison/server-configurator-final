@@ -381,8 +381,7 @@ ${errors.map((error, index) => `${index + 1}. ${error}`).join('\n')}
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-6">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-white mb-2">서버 구성 시스템</h1>
-          <p className="text-slate-300">전문적인 서버 구성을 위한 시스템</p>
+          <img src="/logo.png" alt="서버 구성 시스템" className="mx-auto h-16" />
         </div>
 
         {/* 서버 선택 - 2행으로 배치 */}
