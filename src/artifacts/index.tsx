@@ -281,8 +281,7 @@ const ServerConfigurator = () => {
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-6">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-white mb-2">서버 구성 시스템</h1>
-          <p className="text-slate-300">드래그 앤 드롭으로 서버를 구성하세요</p>
+        <img src="/logo.png" alt="서버 구성 시스템" className="mx-auto h-16" />
         </div>
 
         {/* 서버 선택 - 2행으로 배치 */}
@@ -370,28 +369,6 @@ const ServerConfigurator = () => {
 
                 <div>
                   <h4 className="text-white font-medium mb-2 flex items-center">
-                    <HardDrive className="mr-2 w-4 h-4" />
-                    메모리
-                  </h4>
-                  <div className="space-y-2 max-h-48 overflow-y-auto">
-                    {availableComponents.memory.map((memory, index) => (
-                      <div
-                        key={index}
-                        draggable
-                        onDragStart={(e) => handleDragStart(e, 'memory', memory)}
-                        className="p-3 bg-green-500/20 rounded-lg border border-green-400/30 cursor-move hover:bg-green-500/30 transition-colors"
-                      >
-                        <div className="text-white text-sm">{memory}</div>
-                        <div className="text-green-300 text-xs">
-                          {componentSpecs[memory]?.power}W
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                <div>
-                  <h4 className="text-white font-medium mb-2 flex items-center">
                     <Monitor className="mr-2 w-4 h-4" />
                     GPU
                   </h4>
@@ -406,6 +383,28 @@ const ServerConfigurator = () => {
                         <div className="text-white text-sm">{gpu}</div>
                         <div className="text-purple-300 text-xs">
                           {componentSpecs[gpu]?.memory}GB VRAM, {componentSpecs[gpu]?.power}W
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div>
+                  <h4 className="text-white font-medium mb-2 flex items-center">
+                    <HardDrive className="mr-2 w-4 h-4" />
+                    메모리
+                  </h4>
+                  <div className="space-y-2 max-h-48 overflow-y-auto">
+                    {availableComponents.memory.map((memory, index) => (
+                      <div
+                        key={index}
+                        draggable
+                        onDragStart={(e) => handleDragStart(e, 'memory', memory)}
+                        className="p-3 bg-green-500/20 rounded-lg border border-green-400/30 cursor-move hover:bg-green-500/30 transition-colors"
+                      >
+                        <div className="text-white text-sm">{memory}</div>
+                        <div className="text-green-300 text-xs">
+                          {componentSpecs[memory]?.power}W
                         </div>
                       </div>
                     ))}
@@ -445,28 +444,6 @@ const ServerConfigurator = () => {
                   )}
                 </div>
 
-                {/* 메모리 영역 */}
-                <div className="bg-green-500/10 rounded-lg p-3">
-                  <h4 className="text-white font-medium mb-2">메모리</h4>
-                  {configuredComponents.memory.length === 0 ? (
-                    <div className="text-slate-400 text-sm">메모리를 여기에 드래그하세요</div>
-                  ) : (
-                    <div className="space-y-2">
-                      {configuredComponents.memory.map((memory, index) => (
-                        <div key={index} className="bg-green-500/20 p-2 rounded flex justify-between items-center">
-                          <span className="text-white text-sm">{memory}</span>
-                          <button
-                            onClick={() => removeComponent('memory', index)}
-                            className="text-red-400 hover:text-red-300"
-                          >
-                            ×
-                          </button>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-
                 {/* GPU 영역 */}
                 <div className="bg-purple-500/10 rounded-lg p-3">
                   <h4 className="text-white font-medium mb-2">GPU</h4>
@@ -479,6 +456,28 @@ const ServerConfigurator = () => {
                           <span className="text-white text-sm">{gpu}</span>
                           <button
                             onClick={() => removeComponent('gpu', index)}
+                            className="text-red-400 hover:text-red-300"
+                          >
+                            ×
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                {/* 메모리 영역 */}
+                <div className="bg-green-500/10 rounded-lg p-3">
+                  <h4 className="text-white font-medium mb-2">메모리</h4>
+                  {configuredComponents.memory.length === 0 ? (
+                    <div className="text-slate-400 text-sm">메모리를 여기에 드래그하세요</div>
+                  ) : (
+                    <div className="space-y-2">
+                      {configuredComponents.memory.map((memory, index) => (
+                        <div key={index} className="bg-green-500/20 p-2 rounded flex justify-between items-center">
+                          <span className="text-white text-sm">{memory}</span>
+                          <button
+                            onClick={() => removeComponent('memory', index)}
                             className="text-red-400 hover:text-red-300"
                           >
                             ×
@@ -546,8 +545,8 @@ const ServerConfigurator = () => {
                   <div className="text-slate-300 text-sm mb-2">구성 요약</div>
                   <div className="space-y-1 text-xs text-slate-400">
                     <div>CPU: {configuredComponents.cpu.length}개</div>
-                    <div>메모리: {configuredComponents.memory.length}개</div>
                     <div>GPU: {configuredComponents.gpu.length}개</div>
+                    <div>메모리: {configuredComponents.memory.length}개</div>
                   </div>
                 </div>
               </div>
