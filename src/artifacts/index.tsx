@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
-import { AlertTriangle, Server, Cpu, HardDrive, Monitor } from 'lucide-react';
+import { AlertTriangle, Server, Cpu, HardDrive, Monitor, Download } from 'lucide-react';
 
 // 타입 정의
 interface ComponentSpec {
@@ -273,6 +273,106 @@ const ServerConfigurator = () => {
     ? serverSpecs[selectedServer].maxPowerConsumption 
     : 0;
 
+  // 클립보드 복사 함수
+  const exportToPDF = () => {
+    if (!selectedServer) {
+      alert('서버를 먼저 선택해주세요.');
+      return;
+    }
+    
+    const hasComponents = configuredComponents.cpu.length > 0 || 
+                         configuredComponents.gpu.length > 0 || 
+                         configuredComponents.memory.length > 0;
+    
+    if (!hasComponents) {
+      alert('최소 하나 이상의 컴포넌트를 추가해주세요.');
+      return;
+    }
+    
+    try {
+      // 구성 내용을 텍스트로 생성
+      const content = `                                서버 구성 사양서
+=========================================
+
+선택된 서버: ${selectedServer}
+생성일시: ${new Date().toLocaleString('ko-KR')}
+
+=========================================
+                                포함된 컴포넌트
+=========================================
+
+${configuredComponents.cpu.length > 0 ? `CPU (${configuredComponents.cpu.length}개):
+${configuredComponents.cpu.map((cpu, index) => 
+  `${index}. ${cpu} (${componentSpecs[cpu]?.cores}코어, ${componentSpecs[cpu]?.power}W)`
+).join('\n')}
+
+` : ''}${configuredComponents.gpu.length > 0 ? `GPU (${configuredComponents.gpu.length}개):
+${configuredComponents.gpu.map((gpu, index) => 
+  `${index}. ${gpu} (${componentSpecs[gpu]?.memory}GB VRAM, ${componentSpecs[gpu]?.power}W)`
+).join('\n')}
+
+` : ''}${configuredComponents.memory.length > 0 ? `메모리 (${configuredComponents.memory.length}개):
+${configuredComponents.memory.map((memory, index) => 
+  `${index}. ${memory} (${componentSpecs[memory]?.memory}GB, ${componentSpecs[memory]?.power}W)`
+).join('\n')}
+
+` : ''}=========================================
+                                시스템 성능 요약
+=========================================
+
+총 메모리 용량: ${totalMemory}GB
+총 CPU 코어 수: ${totalCores}개
+총 전력 소비: ${totalPower}W
+최대 전력 허용: ${maxPower}W
+전력 사용률: ${((totalPower / maxPower) * 100).toFixed(1)}%
+
+${errors.length > 0 ? `=========================================
+                                주의사항
+=========================================
+${errors.map((error, index) => `${index + 1}. ${error}`).join('\n')}
+
+` : ''}=========================================
+          Powered by Serveria Server Configurator
+=========================================`;
+      
+      // 클립보드에 복사
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(content).then(() => {
+          alert('서버 구성 사양서가 복사되었습니다! 📋\n\n원하는 곳에 붙여넣기(Ctrl+V)하세요.');
+        }).catch(() => {
+          fallbackCopyToClipboard(content);
+        });
+      } else {
+        fallbackCopyToClipboard(content);
+      }
+      
+    } catch (error) {
+      alert('복사 중 오류가 발생했습니다. 다시 시도해주세요.');
+    }
+  };
+
+  // 클립보드 복사 대체 방법
+  const fallbackCopyToClipboard = (text: string) => {
+    const textArea = document.createElement('textarea');
+    textArea.value = text;
+    textArea.style.position = 'fixed';
+    textArea.style.left = '-999999px';
+    textArea.style.top = '-999999px';
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    
+    try {
+      document.execCommand('copy');
+      alert('서버 구성 정보가 클립보드에 복사되었습니다!\n\n메모장이나 워드에 붙여넣기(Ctrl+V)하여 저장하세요.');
+    } catch (err) {
+      console.error('클립보드 복사 실패:', err);
+      alert('클립보드 복사에 실패했습니다. 아래 내용을 직접 복사해주세요:\n\n' + text.substring(0, 200) + '...');
+    }
+    
+    document.body.removeChild(textArea);
+  };
+
   // HP 서버와 Dell 서버를 분리하여 렌더링
   const hpServers = Object.keys(serverSpecs).filter(server => server.startsWith('HPE'));
   const dellServers = Object.keys(serverSpecs).filter(server => server.startsWith('Dell'));
@@ -281,7 +381,8 @@ const ServerConfigurator = () => {
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-6">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-8">
-        <img src="/logo.png" alt="서버 구성 시스템" className="mx-auto h-16" />
+          <h1 className="text-4xl font-bold text-white mb-2">서버 구성 시스템</h1>
+          <p className="text-slate-300">전문적인 서버 구성을 위한 시스템</p>
         </div>
 
         {/* 서버 선택 - 2행으로 배치 */}
@@ -404,7 +505,7 @@ const ServerConfigurator = () => {
                       >
                         <div className="text-white text-sm">{memory}</div>
                         <div className="text-green-300 text-xs">
-                          {componentSpecs[memory]?.power}W
+                          {componentSpecs[memory]?.memory}GB, {componentSpecs[memory]?.power}W
                         </div>
                       </div>
                     ))}
@@ -413,80 +514,108 @@ const ServerConfigurator = () => {
               </div>
             </div>
 
-            {/* 서버 구성 영역 */}
+            {/* 구성된 서버 */}
             <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6">
               <h3 className="text-lg font-semibold text-white mb-4">서버 구성</h3>
               
               <div
                 onDrop={handleDrop}
                 onDragOver={handleDragOver}
-                className="min-h-96 border-2 border-dashed border-slate-600 rounded-lg p-4 space-y-4"
+                className="min-h-96 p-4 border-2 border-dashed border-slate-500 rounded-lg"
               >
-                {/* CPU 영역 */}
-                <div className="bg-blue-500/10 rounded-lg p-3">
-                  <h4 className="text-white font-medium mb-2">CPU</h4>
-                  {configuredComponents.cpu.length === 0 ? (
-                    <div className="text-slate-400 text-sm">CPU를 여기에 드래그하세요</div>
-                  ) : (
-                    <div className="space-y-2">
-                      {configuredComponents.cpu.map((cpu, index) => (
-                        <div key={index} className="bg-blue-500/20 p-2 rounded flex justify-between items-center">
-                          <span className="text-white text-sm">{cpu}</span>
-                          <button
-                            onClick={() => removeComponent('cpu', index)}
-                            className="text-red-400 hover:text-red-300"
-                          >
-                            ×
-                          </button>
+                {configuredComponents.cpu.length === 0 && 
+                 configuredComponents.gpu.length === 0 && 
+                 configuredComponents.memory.length === 0 ? (
+                  <div className="text-center text-slate-400 mt-20">
+                    여기에 컴포넌트를 드래그하여 추가하세요
+                  </div>
+                ) : (
+                  <div className="space-y-4">
+                    {/* CPU 섹션 */}
+                    {configuredComponents.cpu.length > 0 && (
+                      <div>
+                        <h4 className="text-white font-medium mb-2">CPU</h4>
+                        <div className="space-y-2">
+                          {configuredComponents.cpu.map((cpu, index) => (
+                            <div
+                              key={index}
+                              className="p-3 bg-blue-600/30 rounded-lg border border-blue-400/50 flex justify-between items-center"
+                            >
+                              <div>
+                                <div className="text-white text-sm">{cpu}</div>
+                                <div className="text-blue-300 text-xs">
+                                  {componentSpecs[cpu]?.cores}코어, {componentSpecs[cpu]?.power}W
+                                </div>
+                              </div>
+                              <button
+                                onClick={() => removeComponent('cpu', index)}
+                                className="text-red-400 hover:text-red-300 ml-2"
+                              >
+                                ✕
+                              </button>
+                            </div>
+                          ))}
                         </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
+                      </div>
+                    )}
 
-                {/* GPU 영역 */}
-                <div className="bg-purple-500/10 rounded-lg p-3">
-                  <h4 className="text-white font-medium mb-2">GPU</h4>
-                  {configuredComponents.gpu.length === 0 ? (
-                    <div className="text-slate-400 text-sm">GPU를 여기에 드래그하세요</div>
-                  ) : (
-                    <div className="space-y-2">
-                      {configuredComponents.gpu.map((gpu, index) => (
-                        <div key={index} className="bg-purple-500/20 p-2 rounded flex justify-between items-center">
-                          <span className="text-white text-sm">{gpu}</span>
-                          <button
-                            onClick={() => removeComponent('gpu', index)}
-                            className="text-red-400 hover:text-red-300"
-                          >
-                            ×
-                          </button>
+                    {/* GPU 섹션 */}
+                    {configuredComponents.gpu.length > 0 && (
+                      <div>
+                        <h4 className="text-white font-medium mb-2">GPU</h4>
+                        <div className="space-y-2">
+                          {configuredComponents.gpu.map((gpu, index) => (
+                            <div
+                              key={index}
+                              className="p-3 bg-purple-600/30 rounded-lg border border-purple-400/50 flex justify-between items-center"
+                            >
+                              <div>
+                                <div className="text-white text-sm">{gpu}</div>
+                                <div className="text-purple-300 text-xs">
+                                  {componentSpecs[gpu]?.memory}GB VRAM, {componentSpecs[gpu]?.power}W
+                                </div>
+                              </div>
+                              <button
+                                onClick={() => removeComponent('gpu', index)}
+                                className="text-red-400 hover:text-red-300 ml-2"
+                              >
+                                ✕
+                              </button>
+                            </div>
+                          ))}
                         </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
+                      </div>
+                    )}
 
-                {/* 메모리 영역 */}
-                <div className="bg-green-500/10 rounded-lg p-3">
-                  <h4 className="text-white font-medium mb-2">메모리</h4>
-                  {configuredComponents.memory.length === 0 ? (
-                    <div className="text-slate-400 text-sm">메모리를 여기에 드래그하세요</div>
-                  ) : (
-                    <div className="space-y-2">
-                      {configuredComponents.memory.map((memory, index) => (
-                        <div key={index} className="bg-green-500/20 p-2 rounded flex justify-between items-center">
-                          <span className="text-white text-sm">{memory}</span>
-                          <button
-                            onClick={() => removeComponent('memory', index)}
-                            className="text-red-400 hover:text-red-300"
-                          >
-                            ×
-                          </button>
+                    {/* 메모리 섹션 */}
+                    {configuredComponents.memory.length > 0 && (
+                      <div>
+                        <h4 className="text-white font-medium mb-2">메모리</h4>
+                        <div className="space-y-2">
+                          {configuredComponents.memory.map((memory, index) => (
+                            <div
+                              key={index}
+                              className="p-3 bg-green-600/30 rounded-lg border border-green-400/50 flex justify-between items-center"
+                            >
+                              <div>
+                                <div className="text-white text-sm">{memory}</div>
+                                <div className="text-green-300 text-xs">
+                                  {componentSpecs[memory]?.memory}GB, {componentSpecs[memory]?.power}W
+                                </div>
+                              </div>
+                              <button
+                                onClick={() => removeComponent('memory', index)}
+                                className="text-red-400 hover:text-red-300 ml-2"
+                              >
+                                ✕
+                              </button>
+                            </div>
+                          ))}
                         </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
+                      </div>
+                    )}
+                  </div>
+                )}
               </div>
             </div>
 
@@ -495,29 +624,25 @@ const ServerConfigurator = () => {
               <h3 className="text-lg font-semibold text-white mb-4">시스템 정보</h3>
               
               <div className="space-y-4">
-                <div className="bg-slate-800/50 rounded-lg p-4">
-                  <div className="text-slate-300 text-sm mb-2">총 메모리</div>
-                  <div className="text-white text-xl font-bold">{totalMemory}GB</div>
-                  {selectedServer && isValidServerKey(selectedServer) && (
-                    <div className="text-xs text-slate-400 mt-1">
-                      최대: {serverSpecs[selectedServer].maxMemory}GB
-                    </div>
-                  )}
+                <div className="bg-slate-800/50 p-4 rounded-lg">
+                  <div className="text-slate-300 text-sm mb-1">총 메모리</div>
+                  <div className="text-white text-xl font-semibold">{totalMemory}GB</div>
                 </div>
-                
-                <div className="bg-slate-800/50 rounded-lg p-4">
-                  <div className="text-slate-300 text-sm mb-2">총 CPU 코어</div>
-                  <div className="text-white text-xl font-bold">{totalCores}코어</div>
+
+                <div className="bg-slate-800/50 p-4 rounded-lg">
+                  <div className="text-slate-300 text-sm mb-1">총 CPU 코어</div>
+                  <div className="text-white text-xl font-semibold">{totalCores}코어</div>
                 </div>
-                
-                <div className="bg-slate-800/50 rounded-lg p-4">
-                  <div className="text-slate-300 text-sm mb-2">전력 소비량</div>
-                  <div className="text-white text-xl font-bold">
-                    {totalPower}W / {maxPower}W
+
+                <div className="bg-slate-800/50 p-4 rounded-lg">
+                  <div className="text-slate-300 text-sm mb-1">전력 소비량</div>
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-white text-xl font-semibold">{totalPower}W</span>
+                    <span className="text-slate-400">/ {maxPower}W</span>
                   </div>
-                  <div className="w-full bg-slate-700 rounded-full h-2 mt-2">
-                    <div 
-                      className={`h-2 rounded-full transition-all ${
+                  <div className="w-full bg-slate-600 rounded-full h-2">
+                    <div
+                      className={`h-2 rounded-full transition-all duration-300 ${
                         totalPower > maxPower ? 'bg-red-500' : 'bg-green-500'
                       }`}
                       style={{ width: `${Math.min((totalPower / maxPower) * 100, 100)}%` }}
@@ -525,29 +650,41 @@ const ServerConfigurator = () => {
                   </div>
                 </div>
 
-                {/* 오류 메시지 */}
+                {/* 오류 표시 */}
                 {errors.length > 0 && (
-                  <div className="bg-red-500/20 border border-red-500/30 rounded-lg p-4">
-                    <div className="flex items-center text-red-400 font-medium mb-2">
-                      <AlertTriangle className="mr-2 w-4 h-4" />
-                      경고
+                  <div className="bg-red-500/20 border border-red-500/50 rounded-lg p-4">
+                    <div className="flex items-center text-red-400 mb-2">
+                      <AlertTriangle className="w-4 h-4 mr-2" />
+                      <span className="font-medium">경고</span>
                     </div>
                     <div className="space-y-1">
                       {errors.map((error, index) => (
-                        <div key={index} className="text-red-300 text-sm">{error}</div>
+                        <div key={index} className="text-red-300 text-sm">
+                          • {error}
+                        </div>
                       ))}
                     </div>
                   </div>
                 )}
 
-                {/* 구성 요약 */}
-                <div className="bg-slate-800/50 rounded-lg p-4">
-                  <div className="text-slate-300 text-sm mb-2">구성 요약</div>
-                  <div className="space-y-1 text-xs text-slate-400">
-                    <div>CPU: {configuredComponents.cpu.length}개</div>
-                    <div>GPU: {configuredComponents.gpu.length}개</div>
-                    <div>메모리: {configuredComponents.memory.length}개</div>
-                  </div>
+                {/* 사양서 복사 버튼 */}
+                <button
+                  onClick={exportToPDF}
+                  disabled={configuredComponents.cpu.length === 0 && 
+                           configuredComponents.gpu.length === 0 && 
+                           configuredComponents.memory.length === 0}
+                  className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-slate-600 disabled:cursor-not-allowed text-white py-3 px-4 rounded-lg flex items-center justify-center transition-colors"
+                >
+                  <Download className="w-4 h-4 mr-2" />
+                  사양서 복사
+                </button>
+                
+                {/* 디버그 정보 */}
+                <div className="text-xs text-slate-400 mt-2">
+                  서버: {selectedServer || '선택안됨'} | 
+                  CPU: {configuredComponents.cpu.length} | 
+                  GPU: {configuredComponents.gpu.length} | 
+                  메모리: {configuredComponents.memory.length}
                 </div>
               </div>
             </div>
