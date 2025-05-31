@@ -1,5 +1,40 @@
 import { useState, useEffect, useMemo } from 'react';
-import { AlertTriangle, Server, Cpu, HardDrive, Monitor, Download } from 'lucide-react';
+import { 
+  Server, 
+  Cpu, 
+  HardDrive, 
+  Download, 
+  CheckCircle, 
+  ArrowRight, 
+  PlayCircle,
+  Users,
+  Zap,
+  Shield,
+  Clock,
+  Star,
+  ChevronDown,
+  Menu,
+  X,
+  Quote,
+  Mail,
+  Phone,
+  MapPin,
+  ArrowUp,
+  Github,
+  Twitter,
+  Linkedin,
+  Youtube,
+  CreditCard,
+  Monitor,
+  MemoryStick,
+  Database,
+  Home,
+  Plus,
+  Minus,
+  AlertCircle,
+  FileText,
+  AlertTriangle
+} from 'lucide-react';
 
 // 타입 정의
 interface ComponentSpec {
@@ -41,6 +76,7 @@ interface AvailableComponents {
 
 type ComponentType = keyof ConfiguredComponents;
 
+// ServerConfigurator 컴포넌트
 const ServerConfigurator = () => {
   const [selectedServer, setSelectedServer] = useState<string>('');
   const [configuredComponents, setConfiguredComponents] = useState<ConfiguredComponents>({
@@ -303,17 +339,17 @@ const ServerConfigurator = () => {
 
 ${configuredComponents.cpu.length > 0 ? `CPU (${configuredComponents.cpu.length}개):
 ${configuredComponents.cpu.map((cpu, index) => 
-  `${index}. ${cpu} (${componentSpecs[cpu]?.cores}코어, ${componentSpecs[cpu]?.power}W)`
+  `${index+1}. ${cpu} (${componentSpecs[cpu]?.cores}코어, ${componentSpecs[cpu]?.power}W)`
 ).join('\n')}
 
 ` : ''}${configuredComponents.gpu.length > 0 ? `GPU (${configuredComponents.gpu.length}개):
 ${configuredComponents.gpu.map((gpu, index) => 
-  `${index}. ${gpu} (${componentSpecs[gpu]?.memory}GB VRAM, ${componentSpecs[gpu]?.power}W)`
+  `${index+1}. ${gpu} (${componentSpecs[gpu]?.memory}GB VRAM, ${componentSpecs[gpu]?.power}W)`
 ).join('\n')}
 
 ` : ''}${configuredComponents.memory.length > 0 ? `메모리 (${configuredComponents.memory.length}개):
 ${configuredComponents.memory.map((memory, index) => 
-  `${index}. ${memory} (${componentSpecs[memory]?.memory}GB, ${componentSpecs[memory]?.power}W)`
+  `${index+1}. ${memory} (${componentSpecs[memory]?.memory}GB, ${componentSpecs[memory]?.power}W)`
 ).join('\n')}
 
 ` : ''}=========================================
@@ -381,7 +417,8 @@ ${errors.map((error, index) => `${index + 1}. ${error}`).join('\n')}
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-6">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-8">
-          <img src="/logo.png" alt="서버 구성 시스템" className="mx-auto h-16" />
+          <h1 className="text-4xl font-bold text-white mb-4">서버 구성하기</h1>
+          <p className="text-slate-300">드래그 & 드롭으로 전문적인 서버를 구성해보세요</p>
         </div>
 
         {/* 서버 선택 - 2행으로 배치 */}
@@ -692,6 +729,802 @@ ${errors.map((error, index) => `${index + 1}. ${error}`).join('\n')}
       </div>
     </div>
   );
+};import { useState, useEffect } from 'react';
+import { 
+  Server, 
+  Cpu, 
+  HardDrive, 
+  Download, 
+  CheckCircle, 
+  ArrowRight, 
+  PlayCircle,
+  Users,
+  Zap,
+  Shield,
+  Clock,
+  Star,
+  ChevronDown,
+  Menu,
+  X,
+  Quote,
+  Mail,
+  Phone,
+  MapPin,
+  ArrowUp,
+  Github,
+  Twitter,
+  Linkedin,
+  Youtube,
+  CreditCard,
+  Monitor,
+  MemoryStick,
+  Database,
+  Home,
+  Plus,
+  Minus,
+  AlertCircle,
+  FileText
+} from 'lucide-react';
+
+const ServeriaApp = () => {
+  const [currentMode, setCurrentMode] = useState('homepage'); // 'homepage' or 'builder'
+  const [activeSection, setActiveSection] = useState('hero');
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [showScrollTop, setShowScrollTop] = useState(false);
+
+  // Builder state
+  const [selectedServer, setSelectedServer] = useState(null);
+  const [selectedComponents, setSelectedComponents] = useState([]);
+  const [totalPower, setTotalPower] = useState(0);
+  const [compatibilityChecks, setCompatibilityChecks] = useState([]);
+
+  // 서버 목록
+  const servers = [
+    {
+      id: 1,
+      name: "Dell PowerEdge R750",
+      brand: "Dell",
+      maxPower: 750,
+      slots: { cpu: 2, ram: 16, storage: 8, gpu: 2 },
+      price: 2500000,
+      image: "🖥️"
+    },
+    {
+      id: 2,
+      name: "HPE ProLiant DL380",
+      brand: "HPE",
+      maxPower: 800,
+      slots: { cpu: 2, ram: 24, storage: 12, gpu: 3 },
+      price: 2800000,
+      image: "💻"
+    },
+    {
+      id: 3,
+      name: "Supermicro SYS-1029P",
+      brand: "Supermicro",
+      maxPower: 920,
+      slots: { cpu: 2, ram: 16, storage: 10, gpu: 4 },
+      price: 3200000,
+      image: "⚡"
+    }
+  ];
+
+  // 부품 목록
+  const components = {
+    cpu: [
+      { id: 1, name: "Intel Xeon Gold 6248R", cores: 24, power: 205, price: 3200000, compatible: ['Dell', 'HPE', 'Supermicro'] },
+      { id: 2, name: "Intel Xeon Silver 4214", cores: 12, power: 85, price: 1200000, compatible: ['Dell', 'HPE', 'Supermicro'] },
+      { id: 3, name: "AMD EPYC 7452", cores: 32, power: 155, price: 2800000, compatible: ['Supermicro'] }
+    ],
+    ram: [
+      { id: 1, name: "32GB DDR4-3200", size: 32, power: 15, price: 450000, compatible: ['Dell', 'HPE', 'Supermicro'] },
+      { id: 2, name: "64GB DDR4-3200", size: 64, power: 22, price: 800000, compatible: ['Dell', 'HPE', 'Supermicro'] },
+      { id: 3, name: "128GB DDR4-3200", size: 128, power: 35, price: 1500000, compatible: ['HPE', 'Supermicro'] }
+    ],
+    storage: [
+      { id: 1, name: "1TB NVMe SSD", capacity: 1000, power: 8, price: 200000, compatible: ['Dell', 'HPE', 'Supermicro'] },
+      { id: 2, name: "2TB SATA SSD", capacity: 2000, power: 12, price: 350000, compatible: ['Dell', 'HPE', 'Supermicro'] },
+      { id: 3, name: "4TB HDD", capacity: 4000, power: 25, price: 180000, compatible: ['Dell', 'HPE', 'Supermicro'] }
+    ],
+    gpu: [
+      { id: 1, name: "NVIDIA RTX A6000", memory: 48, power: 300, price: 6500000, compatible: ['Dell', 'HPE', 'Supermicro'] },
+      { id: 2, name: "NVIDIA Tesla V100", memory: 32, power: 250, price: 8500000, compatible: ['HPE', 'Supermicro'] },
+      { id: 3, name: "NVIDIA RTX 4090", memory: 24, power: 450, price: 2200000, compatible: ['Dell', 'Supermicro'] }
+    ]
+  };
+
+  // 스크롤 감지
+  useEffect(() => {
+    if (currentMode === 'homepage') {
+      const handleScroll = () => {
+        const sections = ['hero', 'features', 'how-it-works', 'pricing', 'testimonials'];
+        const scrollPosition = window.scrollY + 100;
+
+        sections.forEach(section => {
+          const element = document.getElementById(section);
+          if (element) {
+            const { offsetTop, offsetHeight } = element;
+            if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
+              setActiveSection(section);
+            }
+          }
+        });
+
+        setShowScrollTop(window.scrollY > 400);
+      };
+
+      window.addEventListener('scroll', handleScroll);
+      return () => window.removeEventListener('scroll', handleScroll);
+    }
+  }, [currentMode]);
+
+  // 전력 계산
+  useEffect(() => {
+    const power = selectedComponents.reduce((total, comp) => total + comp.power, 0);
+    setTotalPower(power);
+    
+    // 호환성 체크
+    const checks = [];
+    if (selectedServer && power > selectedServer.maxPower) {
+      checks.push({ type: 'error', message: '전력 소비가 서버 최대 전력을 초과합니다!' });
+    }
+    setCompatibilityChecks(checks);
+  }, [selectedComponents, selectedServer]);
+
+  const scrollToSection = (sectionId) => {
+    if (currentMode === 'homepage') {
+      document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
+    }
+    setMobileMenuOpen(false);
+  };
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const switchToBuilder = () => {
+    setCurrentMode('builder');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const switchToHomepage = () => {
+    setCurrentMode('homepage');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const addComponent = (component, type) => {
+    // 호환성 체크
+    if (selectedServer && !component.compatible.includes(selectedServer.brand)) {
+      alert(`${component.name}은(는) ${selectedServer.name}과 호환되지 않습니다.`);
+      return;
+    }
+    
+    const newComponent = { ...component, type, id: Date.now() };
+    setSelectedComponents([...selectedComponents, newComponent]);
+  };
+
+  const removeComponent = (componentId) => {
+    setSelectedComponents(selectedComponents.filter(comp => comp.id !== componentId));
+  };
+
+  const generateSpec = () => {
+    if (!selectedServer || selectedComponents.length === 0) {
+      alert('서버와 부품을 먼저 선택해주세요.');
+      return;
+    }
+    
+    alert('PDF 사양서가 생성되었습니다! (데모)');
+  };
+
+  const totalPrice = (selectedServer?.price || 0) + selectedComponents.reduce((total, comp) => total + comp.price, 0);
+
+  if (currentMode === 'builder') {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+        {/* Builder Navigation */}
+        <nav className="fixed top-0 w-full z-50 bg-slate-900/90 backdrop-blur-md border-b border-white/10">
+          <div className="max-w-7xl mx-auto px-6 py-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-2">
+                <Server className="h-8 w-8 text-white" />
+                <span className="text-xl font-bold text-white">Serveria</span>
+              </div>
+              
+              <div className="flex items-center space-x-4">
+                <button 
+                  onClick={switchToHomepage}
+                  className="flex items-center text-slate-300 hover:text-white transition-colors"
+                >
+                  <Home className="h-4 w-4 mr-2" />
+                  홈으로
+                </button>
+                <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors">
+                  저장하기
+                </button>
+              </div>
+            </div>
+          </div>
+        </nav>
+
+        {/* Builder Content - 기존 ServerConfigurator 통합 */}
+        <div className="pt-20">
+          <ServerConfigurator />
+        </div>
+      </div>
+    );
+  }
+
+  // Homepage 렌더링
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 relative">
+      {/* Navigation */}
+      <nav className="fixed top-0 w-full z-50 bg-slate-900/90 backdrop-blur-md border-b border-white/10">
+        <div className="max-w-7xl mx-auto px-6 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-2 cursor-pointer" onClick={scrollToTop}>
+              <Server className="h-8 w-8 text-white" />
+              <span className="text-xl font-bold text-white">Serveria</span>
+            </div>
+
+            <div className="hidden md:flex items-center space-x-8">
+              {[
+                { id: 'hero', label: '홈' },
+                { id: 'features', label: '기능' },
+                { id: 'how-it-works', label: '사용법' },
+                { id: 'pricing', label: '요금제' },
+                { id: 'testimonials', label: '고객사례' }
+              ].map(item => (
+                <button
+                  key={item.id}
+                  onClick={() => scrollToSection(item.id)}
+                  className={`text-sm transition-colors duration-200 ${
+                    activeSection === item.id 
+                      ? 'text-blue-400 font-medium' 
+                      : 'text-slate-300 hover:text-white'
+                  }`}
+                >
+                  {item.label}
+                </button>
+              ))}
+            </div>
+
+            <div className="hidden md:flex items-center space-x-4">
+              <button className="text-slate-300 hover:text-white transition-colors duration-200">
+                로그인
+              </button>
+              <button 
+                onClick={switchToBuilder}
+                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors duration-200 shadow-lg hover:shadow-blue-500/25"
+              >
+                무료 체험
+              </button>
+            </div>
+
+            <button 
+              className="md:hidden text-white transition-transform duration-200 hover:scale-110"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            >
+              {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            </button>
+          </div>
+
+          {mobileMenuOpen && (
+            <div className="md:hidden mt-4 pb-4 border-t border-white/10">
+              <div className="flex flex-col space-y-4 mt-4">
+                {[
+                  { id: 'hero', label: '홈' },
+                  { id: 'features', label: '기능' },
+                  { id: 'how-it-works', label: '사용법' },
+                  { id: 'pricing', label: '요금제' },
+                  { id: 'testimonials', label: '고객사례' }
+                ].map(item => (
+                  <button
+                    key={item.id}
+                    onClick={() => scrollToSection(item.id)}
+                    className="text-slate-300 hover:text-white transition-colors text-left duration-200"
+                  >
+                    {item.label}
+                  </button>
+                ))}
+                <div className="flex flex-col space-y-2 pt-4 border-t border-white/10">
+                  <button className="text-slate-300 hover:text-white transition-colors text-left duration-200">
+                    로그인
+                  </button>
+                  <button 
+                    onClick={switchToBuilder}
+                    className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors duration-200"
+                  >
+                    무료 체험
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      </nav>
+
+      {/* Hero Section */}
+      <section id="hero" className="min-h-screen flex items-center justify-center px-6 pt-20 relative overflow-hidden">
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-500/10 rounded-full blur-3xl"></div>
+          <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl"></div>
+        </div>
+        
+        <div className="max-w-7xl mx-auto text-center relative z-10">
+          <div className="mb-8">
+            <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight">
+              서버 구성이 <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
+                이렇게 쉬워도
+              </span> <br />
+              되나요?
+            </h1>
+            <p className="text-xl md:text-2xl text-slate-300 max-w-3xl mx-auto leading-relaxed">
+              드래그 & 드롭만으로 전문적인 서버 사양서를 완성하세요<br />
+              복잡한 호환성 계산은 Serveria가 알아서 처리합니다
+            </p>
+          </div>
+
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+            <button 
+              onClick={switchToBuilder}
+              className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-xl text-lg font-medium transition-all duration-300 transform hover:scale-105 flex items-center justify-center shadow-lg hover:shadow-blue-500/25"
+            >
+              지금 바로 체험해보기
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </button>
+            <button className="border border-white/20 hover:bg-white/10 text-white px-8 py-4 rounded-xl text-lg font-medium transition-all duration-300 flex items-center justify-center backdrop-blur-sm">
+              <PlayCircle className="mr-2 h-5 w-5" />
+              데모 영상 보기
+            </button>
+          </div>
+
+          <div className="relative max-w-4xl mx-auto">
+            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20 shadow-2xl">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="space-y-3">
+                  <h3 className="text-white font-medium flex items-center">
+                    <Server className="mr-2 h-4 w-4" />
+                    서버 선택
+                  </h3>
+                  <div className="space-y-2">
+                    <div className="p-3 bg-blue-500/20 rounded-lg border border-blue-400/30 transform hover:scale-105 transition-transform cursor-pointer">
+                      <div className="text-white text-sm">Dell PowerEdge R750</div>
+                      <div className="text-blue-300 text-xs">최대 750W</div>
+                    </div>
+                    <div className="p-3 bg-slate-700/50 rounded-lg border border-slate-600 transform hover:scale-105 transition-transform cursor-pointer">
+                      <div className="text-slate-300 text-sm">HPE ProLiant DL380</div>
+                      <div className="text-slate-400 text-xs">최대 800W</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="space-y-3">
+                  <h3 className="text-white font-medium">구성 요소</h3>
+                  <div className="space-y-2">
+                    <div className="p-3 bg-purple-500/20 rounded-lg border border-purple-400/30 flex items-center transform hover:scale-105 transition-transform cursor-pointer">
+                      <Cpu className="mr-2 h-4 w-4 text-purple-300" />
+                      <div>
+                        <div className="text-white text-sm">Intel Xeon Gold</div>
+                        <div className="text-purple-300 text-xs">24코어, 150W</div>
+                      </div>
+                    </div>
+                    <div className="p-3 bg-green-500/20 rounded-lg border border-green-400/30 flex items-center transform hover:scale-105 transition-transform cursor-pointer">
+                      <HardDrive className="mr-2 h-4 w-4 text-green-300" />
+                      <div>
+                        <div className="text-white text-sm">64GB DDR4</div>
+                        <div className="text-green-300 text-xs">22W</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="space-y-3">
+                  <h3 className="text-white font-medium">실시간 계산</h3>
+                  <div className="space-y-2">
+                    <div className="bg-slate-800/50 p-3 rounded-lg">
+                      <div className="text-slate-300 text-sm">총 전력</div>
+                      <div className="text-white text-lg font-semibold">172W / 750W</div>
+                      <div className="w-full bg-slate-600 rounded-full h-2 mt-2">
+                        <div className="bg-green-500 h-2 rounded-full transition-all duration-1000" style={{width: '23%'}}></div>
+                      </div>
+                    </div>
+                    <button 
+                      onClick={switchToBuilder}
+                      className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg text-sm transition-all duration-200 flex items-center justify-center hover:shadow-lg"
+                    >
+                      <Download className="mr-2 h-4 w-4" />
+                      사양서 생성
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+            <ChevronDown className="h-6 w-6 text-white/50" />
+          </div>
+        </div>
+      </section>
+
+      {/* Features Section */}
+      <section id="features" className="py-20 px-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+              왜 Serveria를 선택해야 할까요?
+            </h2>
+            <p className="text-xl text-slate-300 max-w-3xl mx-auto">
+              기존 3시간 작업을 5분으로 단축시키는 혁신적인 서버 구성 도구
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[
+              {
+                icon: <Zap className="h-8 w-8" />,
+                title: "간편한 드래그 & 드롭",
+                description: "서버와 부품을 끌어다 놓기만 하면 끝! 복잡한 설정 없이 직관적으로 구성할 수 있습니다.",
+                color: "blue-400"
+              },
+              {
+                icon: <CheckCircle className="h-8 w-8" />,
+                title: "실시간 호환성 체크",
+                description: "호환되지 않는 조합은 미리 알려드려요. 실수 없는 완벽한 서버 구성을 보장합니다.",
+                color: "green-400"
+              },
+              {
+                icon: <Download className="h-8 w-8" />,
+                title: "자동 사양서 생성",
+                description: "PDF와 세금계산서를 자동으로 생성합니다. 기업 구매부서가 필요한 모든 서류가 준비됩니다.",
+                color: "purple-400"
+              },
+              {
+                icon: <Clock className="h-8 w-8" />,
+                title: "시간 절약",
+                description: "기존 3시간 걸리던 작업을 5분으로 단축. 더 중요한 업무에 집중할 수 있습니다.",
+                color: "yellow-400"
+              },
+              {
+                icon: <Users className="h-8 w-8" />,
+                title: "팀 협업 지원",
+                description: "팀원들과 구성을 공유하고 협업하세요. 버전 관리와 승인 프로세스를 지원합니다.",
+                color: "indigo-400"
+              },
+              {
+                icon: <Shield className="h-8 w-8" />,
+                title: "B2B 특화 기능",
+                description: "기업 고객을 위한 세금계산서 자동 발행, API 연동, 대량 구성 처리를 지원합니다.",
+                color: "cyan-400"
+              }
+            ].map((feature, index) => (
+              <div key={index} className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 hover:bg-white/15 transition-all duration-300 transform hover:-translate-y-2 hover:shadow-xl group">
+                <div className={`text-${feature.color} mb-4 transform group-hover:scale-110 transition-transform duration-300`}>
+                  {feature.icon}
+                </div>
+                <h3 className="text-xl font-semibold text-white mb-3">{feature.title}</h3>
+                <p className="text-slate-300">{feature.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* How It Works Section */}
+      <section id="how-it-works" className="py-20 px-6 bg-black/20">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+              3단계로 완성하는 서버 구성
+            </h2>
+            <p className="text-xl text-slate-300">
+              복잡한 서버 구성도 이제 누구나 쉽게
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+            {[
+              {
+                step: "01",
+                title: "서버 선택",
+                description: "HP, Dell 등 원하는 서버 모델을 선택하세요",
+                icon: <Server className="h-12 w-12" />
+              },
+              {
+                step: "02", 
+                title: "부품 구성",
+                description: "CPU, GPU, 메모리를 드래그해서 추가하세요",
+                icon: <Cpu className="h-12 w-12" />
+              },
+              {
+                step: "03",
+                title: "사양서 생성",
+                description: "완성된 구성을 PDF로 다운로드하세요",
+                icon: <Download className="h-12 w-12" />
+              }
+            ].map((step, index) => (
+              <div key={index} className="text-center relative group">
+                <div className="bg-white/10 backdrop-blur-sm rounded-xl p-8 border border-white/20 mb-6 transition-all duration-300 hover:bg-white/15 hover:shadow-xl transform hover:-translate-y-2">
+                  <div className="text-6xl font-bold text-blue-400 mb-4 group-hover:scale-110 transition-transform duration-300">{step.step}</div>
+                  <div className="text-blue-400 mb-4 group-hover:scale-110 transition-transform duration-300 flex justify-center">
+                    {step.icon}
+                  </div>
+                  <h3 className="text-xl font-semibold text-white mb-3">{step.title}</h3>
+                  <p className="text-slate-300">{step.description}</p>
+                </div>
+                {index < 2 && (
+                  <div className="hidden md:block absolute top-1/2 -right-4 w-8 h-0.5 bg-gradient-to-r from-blue-400 to-purple-400"></div>
+                )}
+              </div>
+            ))}
+          </div>
+
+          <div className="text-center">
+            <button 
+              onClick={switchToBuilder}
+              className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-xl text-lg font-medium transition-all duration-300 transform hover:scale-105 inline-flex items-center shadow-lg hover:shadow-blue-500/25"
+            >
+              지금 바로 체험해보기
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* Pricing Section */}
+      <section id="pricing" className="py-20 px-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+              규모에 맞는 플랜을 선택하세요
+            </h2>
+            <p className="text-xl text-slate-300">
+              모든 플랜에 14일 무료 체험 포함
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              {
+                name: "스타터",
+                price: "50,000",
+                description: "개인 개발자 및 소규모 팀",
+                features: [
+                  "월 구성 10회",
+                  "저장 가능 구성 3개", 
+                  "기본 서버 6개",
+                  "팀 멤버 1명",
+                  "이메일 지원"
+                ],
+                highlighted: false
+              },
+              {
+                name: "비즈니스",
+                price: "150,000", 
+                description: "중소기업 IT팀",
+                features: [
+                  "월 구성 50회",
+                  "무제한 저장",
+                  "모든 서버 12개",
+                  "팀 멤버 5명",
+                  "우선 기술 지원",
+                  "API 접근"
+                ],
+                highlighted: true
+              },
+              {
+                name: "엔터프라이즈",
+                price: "400,000",
+                description: "대기업 및 데이터센터",
+                features: [
+                  "무제한 구성",
+                  "무제한 저장",
+                  "커스텀 서버",
+                  "무제한 팀원",
+                  "전화 지원",
+                  "AI 추천",
+                  "전담 매니저"
+                ],
+                highlighted: false
+              }
+            ].map((plan, index) => (
+              <div 
+                key={index} 
+                className={`rounded-xl p-8 border transition-all duration-300 transform hover:-translate-y-2 ${
+                  plan.highlighted 
+                    ? 'bg-blue-600/20 border-blue-400 scale-105 shadow-xl shadow-blue-500/20' 
+                    : 'bg-white/10 border-white/20 hover:bg-white/15 hover:shadow-xl'
+                }`}
+              >
+                {plan.highlighted && (
+                  <div className="bg-blue-500 text-white text-sm font-medium px-3 py-1 rounded-full inline-block mb-4">
+                    인기 플랜
+                  </div>
+                )}
+                <div className="text-center mb-8">
+                  <h3 className="text-2xl font-bold text-white mb-2">{plan.name}</h3>
+                  <div className="text-4xl font-bold text-white mb-2">
+                    {plan.price}<span className="text-lg text-slate-300">원</span>
+                  </div>
+                  <p className="text-slate-300">{plan.description}</p>
+                </div>
+
+                <ul className="space-y-3 mb-8">
+                  {plan.features.map((feature, featureIndex) => (
+                    <li key={featureIndex} className="flex items-center text-slate-300">
+                      <CheckCircle className="h-5 w-5 text-green-400 mr-3 flex-shrink-0" />
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
+
+                <button 
+                  onClick={switchToBuilder}
+                  className={`w-full py-3 px-6 rounded-lg font-medium transition-all duration-300 ${
+                    plan.highlighted
+                      ? 'bg-blue-600 hover:bg-blue-700 text-white shadow-lg hover:shadow-blue-500/25'
+                      : 'bg-white/10 hover:bg-white/20 text-white border border-white/20'
+                  }`}
+                >
+                  14일 무료체험
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials Section */}
+      <section id="testimonials" className="py-20 px-6 bg-black/20">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+              고객들의 이야기
+            </h2>
+            <p className="text-xl text-slate-300">
+              실제 사용 고객들이 경험한 Serveria의 가치
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              {
+                quote: "구매팀에서 요청한 서버 견적을 5분만에 완성했어요. 예전에는 반나절은 걸렸는데 정말 혁신적입니다.",
+                author: "김철수 팀장",
+                company: "삼성전자 IT인프라팀",
+                rating: 5
+              },
+              {
+                quote: "복잡한 GPU 서버 구성도 쉽게 할 수 있어서 놀랐습니다. 호환성 체크까지 자동으로 해주니 실수할 걱정이 없어요.",
+                author: "박영희 연구원", 
+                company: "KAIST AI연구소",
+                rating: 5
+              },
+              {
+                quote: "세금계산서까지 자동으로 나와서 회계팀이 좋아해요. B2B 특화 기능들이 정말 실용적입니다.",
+                author: "이민수 대리",
+                company: "네이버 클라우드팀", 
+                rating: 5
+              }
+            ].map((testimonial, index) => (
+              <div key={index} className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 transition-all duration-300 hover:bg-white/15 transform hover:-translate-y-2 hover:shadow-xl">
+                <div className="flex mb-4">
+                  {[...Array(testimonial.rating)].map((_, i) => (
+                    <Star key={i} className="h-5 w-5 text-yellow-400 fill-current" />
+                  ))}
+                </div>
+                <blockquote className="text-slate-300 mb-6 text-lg leading-relaxed">
+                  "{testimonial.quote}"
+                </blockquote>
+                <div>
+                  <div className="text-white font-semibold">{testimonial.author}</div>
+                  <div className="text-slate-400 text-sm">{testimonial.company}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-20 px-6">
+        <div className="max-w-4xl mx-auto text-center">
+          <div className="bg-gradient-to-r from-blue-600/20 to-purple-600/20 backdrop-blur-sm rounded-2xl p-12 border border-white/20 shadow-2xl">
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+              지금 바로 시작해보세요
+            </h2>
+            <p className="text-xl text-slate-300 mb-8">
+              신용카드 등록 없이 14일 무료 체험
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <button 
+                onClick={switchToBuilder}
+                className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-xl text-lg font-medium transition-all duration-300 transform hover:scale-105 inline-flex items-center justify-center shadow-lg hover:shadow-blue-500/25"
+              >
+                무료로 서버 구성하기
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </button>
+              <button className="border border-white/20 hover:bg-white/10 text-white px-8 py-4 rounded-xl text-lg font-medium transition-all duration-300 inline-flex items-center justify-center backdrop-blur-sm">
+                영업팀과 상담하기
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="bg-black/40 border-t border-white/10 py-12 px-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+            <div>
+              <div className="flex items-center space-x-2 mb-4">
+                <Server className="h-6 w-6 text-white" />
+                <span className="text-lg font-bold text-white">Serveria</span>
+              </div>
+              <p className="text-slate-400 mb-4">
+                전문적인 서버 구성 도구
+              </p>
+              <div className="space-y-2">
+                <div className="flex items-center text-slate-400">
+                  <Mail className="h-4 w-4 mr-2" />
+                  <span className="text-sm">contact@serveria.co.kr</span>
+                </div>
+                <div className="flex items-center text-slate-400">
+                  <Phone className="h-4 w-4 mr-2" />
+                  <span className="text-sm">02-1234-5678</span>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <h4 className="text-white font-semibold mb-4">제품</h4>
+              <ul className="space-y-2 text-slate-400">
+                <li><button onClick={switchToBuilder} className="hover:text-white transition-colors text-left">서버 구성 도구</button></li>
+                <li><a href="#" onClick={() => scrollToSection('pricing')} className="hover:text-white transition-colors cursor-pointer">요금제</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">API 문서</a></li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="text-white font-semibold mb-4">지원</h4>
+              <ul className="space-y-2 text-slate-400">
+                <li><a href="#" className="hover:text-white transition-colors">사용 가이드</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">FAQ</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">기술 지원</a></li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="text-white font-semibold mb-4">회사</h4>
+              <ul className="space-y-2 text-slate-400">
+                <li><a href="#" className="hover:text-white transition-colors">회사 소개</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">채용 정보</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">보도자료</a></li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="border-t border-white/10 pt-8 text-center">
+            <p className="text-slate-400">
+              © 2025 Serveria. All rights reserved.
+            </p>
+          </div>
+        </div>
+      </footer>
+
+      {/* Back to Top Button */}
+      {showScrollTop && (
+        <button
+          onClick={scrollToTop}
+          className="fixed bottom-8 right-8 w-12 h-12 bg-blue-600 hover:bg-blue-700 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-110 z-50"
+          aria-label="맨 위로 이동"
+        >
+          <ArrowUp className="h-6 w-6 mx-auto" />
+        </button>
+      )}
+    </div>
+  );
 };
 
-export default ServerConfigurator;
+export default ServeriaApp;
