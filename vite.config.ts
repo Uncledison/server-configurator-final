@@ -9,7 +9,7 @@ export default defineConfig({
     react(),
     Pages({
       dirs: [{ dir: 'src/artifacts', baseRoute: '' }],
-      extensions: ['jsx', 'tsx', 'js'],
+      extensions: ['jsx', 'tsx'],
     }),
   ],
   resolve: {
