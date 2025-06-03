@@ -770,6 +770,11 @@ if (showLegalModal === 'terms') {
   return <TermsOfService onBack={() => setShowLegalModal(null)} />;
 }
 
+  // 쿠키 정책 페이지 표시
+if (showCookiePolicy) {
+  return <CookiePolicy onBack={() => setShowCookiePolicy(false)} />;
+}
+  
   
   if (currentMode === 'builder') {
     return (
