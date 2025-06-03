@@ -1384,7 +1384,14 @@ if (showCookiePolicy) {
         이용약관
       </button>
     </li>
-    <li><a href="#" className="hover:text-white transition-colors">쿠키 정책</a></li>
+<li>
+  <button 
+    onClick={() => setShowCookiePolicy(true)} 
+    className="hover:text-white transition-colors text-left"
+  >
+    쿠키 정책
+  </button>
+</li>    
   </ul>
 </div>
           </div>
