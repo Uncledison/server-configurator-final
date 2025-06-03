@@ -903,14 +903,14 @@ if (showLegalModal === 'terms') {
         
         <div className="max-w-7xl mx-auto text-center relative z-10">
           <div className="mb-8">
-            <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight">
+            <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 leading-tight">
               서버 구성이 <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
                 이렇게 쉬워도
               </span> <br />
               되나요?
             </h1>
-            <p className="text-xl md:text-2xl text-slate-300 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-xl md:text-xl text-slate-300 max-w-3xl mx-auto leading-relaxed">
               드래그 & 드롭만으로 전문적인 서버 사양서를 완성하세요<br />
               복잡한 호환성 계산은 Serveria가 알아서 처리합니다
             </p>
