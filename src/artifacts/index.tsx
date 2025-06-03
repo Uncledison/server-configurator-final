@@ -1105,9 +1105,7 @@ if (showLegalModal === 'terms') {
                   <p className="text-slate-300">{step.description}</p>
                 </div>
                 {index < 2 && (
-                  <div className="hidden md:block absolute top-1/2 -right-4 w-8 h-0.5 bg-gradient-to-r from-blue-400 to-purple-400"></div>
-                )}
-              </div>
+                 <ArrowRight className="hidden md:block absolute top-1/2 -right-4 h-6 w-6 text-blue-400 transform -translate-y-1/2" />
             ))}
           </div>
 
