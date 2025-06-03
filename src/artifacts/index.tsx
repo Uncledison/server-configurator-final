@@ -1378,14 +1378,28 @@ if (showLegalModal) {
               </ul>
             </div>
 
-            <div>
-              <h4 className="text-white font-semibold mb-4">회사</h4>
-              <ul className="space-y-2 text-slate-400">
-                <li><a href="#" className="hover:text-white transition-colors">회사 소개</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">채용 정보</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">보도자료</a></li>
-              </ul>
-            </div>
+     <div>
+  <h4 className="text-white font-semibold mb-4">법적 고지</h4>
+  <ul className="space-y-2 text-slate-400">
+    <li>
+      <button 
+        onClick={() => setShowLegalModal('privacy')} 
+        className="hover:text-white transition-colors text-left"
+      >
+        개인정보 보호정책
+      </button>
+    </li>
+    <li>
+      <button 
+        onClick={() => setShowLegalModal('terms')} 
+        className="hover:text-white transition-colors text-left"
+      >
+        이용약관
+      </button>
+    </li>
+    <li><a href="#" className="hover:text-white transition-colors">쿠키 정책</a></li>
+  </ul>
+</div>
           </div>
 
           <div className="border-t border-white/10 pt-8 text-center">
