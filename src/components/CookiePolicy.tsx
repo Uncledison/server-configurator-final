@@ -1,4 +1,3 @@
-
 import React, { useEffect } from 'react';
 import { ArrowLeft, Cookie, Shield, BarChart3, Settings, Globe, Mail, Phone } from 'lucide-react';
 
@@ -14,27 +13,39 @@ const CookiePolicy: React.FC<CookiePolicyProps> = ({ onBack }) => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
-      <div className="max-w-4xl mx-auto px-6 py-12">
+      {/* 상단 네비게이션 */}
+      <nav className="fixed top-0 w-full bg-black/20 backdrop-blur-md border-b border-white/10 z-50">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="flex items-center justify-between h-16">
+            <button 
+              onClick={onBack}
+              className="flex items-center space-x-2 text-slate-300 hover:text-white transition-colors"
+            >
+              <ArrowLeft className="h-5 w-5" />
+              <span>홈으로 돌아가기</span>
+            </button>
+            <div className="flex items-center space-x-2">
+              <Cookie className="h-6 w-6 text-blue-400" />
+              <span className="text-xl font-bold text-white">Serveria</span>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      {/* 메인 컨텐츠 */}
+      <div className="pt-16 max-w-4xl mx-auto px-6 py-12">
         <div className="bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 overflow-hidden">
-          {/* 헤더 */}
-          <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-8">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-4">
-                <div className="bg-white/20 p-3 rounded-full">
-                  <Cookie className="h-8 w-8 text-white" />
-                </div>
-                <div>
-                  <h1 className="text-3xl font-bold text-white">쿠키 정책</h1>
-                  <p className="text-blue-100 mt-1">Cookie Policy</p>
-                </div>
+          
+          {/* 페이지 제목 */}
+          <div className="p-8 border-b border-white/20">
+            <div className="flex items-center space-x-4">
+              <div className="bg-blue-500/20 p-3 rounded-full">
+                <Cookie className="h-8 w-8 text-blue-400" />
               </div>
-              <button 
-                onClick={onBack}
-                className="bg-white/20 hover:bg-white/30 text-white px-6 py-3 rounded-lg transition-colors flex items-center space-x-2"
-              >
-                <ArrowLeft className="h-5 w-5" />
-                <span>홈으로 돌아가기</span>
-              </button>
+              <div>
+                <h1 className="text-3xl font-bold text-white">쿠키 정책</h1>
+                <p className="text-slate-400 mt-1">Cookie Policy</p>
+              </div>
             </div>
           </div>
 
@@ -225,6 +236,25 @@ const CookiePolicy: React.FC<CookiePolicyProps> = ({ onBack }) => {
                 </div>
               </div>
             </section>
+          </div>
+          
+          {/* 하단 CTA */}
+          <div className="border-t border-white/20 p-8 text-center">
+            <div className="max-w-2xl mx-auto">
+              <p className="text-slate-300 mb-2">
+                본 약관을 숙지하시고 서비스를 이용해 주시기 바랍니다.
+              </p>
+              <p className="text-slate-400 text-sm mb-6">
+                약관에 대한 질문이나 불분명한 사항이 있으시면 언제든 문의해 주세요.
+              </p>
+              <button 
+                onClick={onBack}
+                className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-semibold transition-colors inline-flex items-center space-x-2"
+              >
+                <ArrowLeft className="h-5 w-5" />
+                <span>홈으로 돌아가기</span>
+              </button>
+            </div>
           </div>
         </div>
       </div>
