@@ -1106,8 +1106,8 @@ if (showLegalModal === 'terms') {
                 </div>
                 {index < 2 && (
                  <ArrowRight className="hidden md:block absolute top-1/2 -right-4 h-6 w-6 text-blue-400 transform -translate-y-1/2" />
-            )}
-          </div>
+                 )}
+   
 
           <div className="text-center">
             <button 
