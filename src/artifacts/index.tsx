@@ -1232,7 +1232,7 @@ if (showLegalModal === 'terms') {
       </section>
 
      {/* Testimonials 섹션 */}
-      <<section id="testimonials" className="pt-32 pb-20 px-6 bg-black/20">
+      <section id="testimonials" className="pt-32 pb-20 px-6 bg-black/20">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
