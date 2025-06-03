@@ -1014,7 +1014,7 @@ const ServeriaApp = () => {
                 icon: <Download className="h-8 w-8" />,
                 title: "자동 사양서 생성",
                 description: "PDF와 세금계산서를 자동으로 생성합니다. 기업 구매부서가 필요한 모든 서류가 준비됩니다.",
-                color: "purple-400"
+                color: "cyan-400" 
               },
               {
                 icon: <Clock className="h-8 w-8" />,
@@ -1026,13 +1026,13 @@ const ServeriaApp = () => {
                 icon: <Users className="h-8 w-8" />,
                 title: "팀 협업 지원",
                 description: "팀원들과 구성을 공유하고 협업하세요. 버전 관리와 승인 프로세스를 지원합니다.",
-                color: "indigo-400"
+                color: "green-400"
               },
               {
                 icon: <Shield className="h-8 w-8" />,
                 title: "B2B 특화 기능",
                 description: "기업 고객을 위한 세금계산서 자동 발행, API 연동, 대량 구성 처리를 지원합니다.",
-                color: "cyan-400"
+                color: "orange-400"
               }
             ].map((feature, index) => (
               <div key={index} className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 hover:bg-white/15 transition-all duration-300 transform hover:-translate-y-2 hover:shadow-xl group">
