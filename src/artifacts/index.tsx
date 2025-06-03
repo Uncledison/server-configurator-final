@@ -1051,8 +1051,8 @@ if (showLegalModal === 'terms') {
               }
             ].map((feature, index) => (
               <div key={index} className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 hover:bg-white/15 transition-all duration-300 transform hover:-translate-y-2 hover:shadow-xl group">
-                <div className={`text-${feature.color} mb-4 transform group-hover:scale-110 transition-transform duration-300`}>
-                  {feature.icon}
+                <div className={`text-${feature.color} mb-4 transform group-hover:scale-110 group-hover:translate-x-2 transition-transform duration-300`}>
+                {feature.icon}
                 </div>
                 <h3 className="text-xl font-semibold text-white mb-3">{feature.title}</h3>
                 <p className="text-slate-300">{feature.description}</p>
