@@ -1020,13 +1020,13 @@ const ServeriaApp = () => {
                 icon: <Clock className="h-8 w-8" />,
                 title: "시간 절약",
                 description: "기존 3시간 걸리던 작업을 5분으로 단축. 더 중요한 업무에 집중할 수 있습니다.",
-                color: "blue-400"
+                color: "grey-400"
               },
               {
                 icon: <Users className="h-8 w-8" />,
                 title: "팀 협업 지원",
                 description: "팀원들과 구성을 공유하고 협업하세요. 버전 관리와 승인 프로세스를 지원합니다.",
-                color: "green-400"
+                color: "orange-400"
               },
               {
                 icon: <Shield className="h-8 w-8" />,
