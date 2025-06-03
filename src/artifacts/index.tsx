@@ -1104,8 +1104,12 @@ if (showLegalModal === 'terms') {
                   <h3 className="text-xl font-semibold text-white mb-3">{step.title}</h3>
                   <p className="text-slate-300">{step.description}</p>
                 </div>
+                
                 {index < 2 && (
-                 <ArrowRight className="hidden md:block absolute top-1/2 -right-4 h-6 w-6 text-blue-400 transform -translate-y-1/2" />
+                <div className="hidden md:flex absolute top-1/2 -right-4 w-8 h-8 items-center justify-center transform -translate-y-1/2 translate-x-1/2">
+                <ArrowRight className="h-5 w-5 text-blue-400" />
+                </div>
+                
                  )}
                  </div>
             ))}
