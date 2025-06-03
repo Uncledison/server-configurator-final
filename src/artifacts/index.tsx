@@ -11,6 +11,7 @@ import {
 
 import PrivacyPolicy from '../components/PrivacyPolicy';
 import TermsOfService from '../components/TermsOfService';
+import CookiePolicy from '../components/CookiePolicy';
 
 // 타입 정의
 interface ComponentSpec {
