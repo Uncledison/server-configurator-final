@@ -1038,19 +1038,19 @@ const ServeriaApp = () => {
                 icon: <Clock className="h-8 w-8" />,
                 title: "시간 절약",
                 description: "기존 3시간 걸리던 작업을 5분으로 단축. 더 중요한 업무에 집중할 수 있습니다.",
-                color: "red-400"
+                color: "blue-400"
               },
               {
                 icon: <Users className="h-8 w-8" />,
                 title: "팀 협업 지원",
                 description: "팀원들과 구성을 공유하고 협업하세요. 버전 관리와 승인 프로세스를 지원합니다.",
-                color: "orange-400"
+                color: "green-400"
               },
               {
                 icon: <Shield className="h-8 w-8" />,
                 title: "B2B 특화 기능",
                 description: "기업 고객을 위한 세금계산서 자동 발행, API 연동, 대량 구성 처리를 지원합니다.",
-                color: "cyan-400"
+                color: "red-400"
               }
             ].map((feature, index) => (
               <div key={index} className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 hover:bg-white/15 transition-all duration-300 transform hover:-translate-y-2 hover:shadow-xl group">
