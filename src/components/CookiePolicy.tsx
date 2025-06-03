@@ -33,7 +33,7 @@ const CookiePolicy: React.FC<CookiePolicyProps> = ({ onBack }) => {
       </nav>
 
       {/* 메인 컨텐츠 */}
-      <div className="pt-32 max-w-4xl mx-auto px-6 py-12">
+      <div className="pt-24 max-w-4xl mx-auto px-6 py-12">
         <div className="bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 overflow-hidden">
           
           {/* 페이지 제목 */}
