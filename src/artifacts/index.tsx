@@ -1070,7 +1070,7 @@ if (showCookiePolicy) {
       </section>
 
       {/* How It Works Section */}
-     <section id="how-it-works" className="pt-32 pb-20 px-6 bg-black/20">
+     <section id="how-it-works" className="pt-24 pb-20 px-6 bg-black/20">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
@@ -1136,7 +1136,7 @@ if (showCookiePolicy) {
       </section>
 
       {/* Pricing Section */}
-      <section id="pricing" className="pt-32 pb-20 px-6">
+      <section id="pricing" className="pt-24 pb-20 px-6">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
@@ -1239,7 +1239,7 @@ if (showCookiePolicy) {
       </section>
 
      {/* Testimonials 섹션 */}
-      <section id="testimonials" className="pt-32 pb-20 px-6 bg-black/20">
+      <section id="testimonials" className="pt-24 pb-20 px-6 bg-black/20">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
