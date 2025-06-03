@@ -1014,7 +1014,7 @@ const ServeriaApp = () => {
                 icon: <Download className="h-8 w-8" />,
                 title: "자동 사양서 생성",
                 description: "PDF와 세금계산서를 자동으로 생성합니다. 기업 구매부서가 필요한 모든 서류가 준비됩니다.",
-                color: "amber-400" 
+                color: "rose-400" 
               },
               {
                 icon: <Clock className="h-8 w-8" />,
