@@ -1032,7 +1032,7 @@ const ServeriaApp = () => {
                 icon: <Shield className="h-8 w-8" />,
                 title: "B2B 특화 기능",
                 description: "기업 고객을 위한 세금계산서 자동 발행, API 연동, 대량 구성 처리를 지원합니다.",
-                color: "yellow-400"
+                color: "red-400"
               }
             ].map((feature, index) => (
               <div key={index} className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 hover:bg-white/15 transition-all duration-300 transform hover:-translate-y-2 hover:shadow-xl group">
