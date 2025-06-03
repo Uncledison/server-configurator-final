@@ -1,11 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { ArrowLeft, FileText, AlertTriangle, CheckCircle, CreditCard, Shield } from 'lucide-react';
 
 interface TermsOfServiceProps {
   onBack: () => void;
 }
 
-const TermsOfService: React.FC<TermsOfServiceProps> = ({ onBack }) => {
+const TermsOfService = ({ onBack }: { onBack: () => void }) => {
+  // 컴포넌트가 열릴 때 맨 위로 부드럽게 스크롤
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, []);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
       {/* Header */}
