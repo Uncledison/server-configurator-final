@@ -9,6 +9,9 @@ import {
   AlertCircle, FileText, AlertTriangle
 } from 'lucide-react';
 
+import PrivacyPolicy from '../components/PrivacyPolicy';
+import TermsOfService from '../components/TermsOfService';
+
 // 타입 정의
 interface ComponentSpec {
   power: number;
