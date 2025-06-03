@@ -897,7 +897,7 @@ const ServeriaApp = () => {
             </h1>
             <p className="text-xl md:text-2xl text-slate-300 max-w-3xl mx-auto leading-relaxed">
               드래그 & 드롭만으로 전문적인 서버 사양서를 완성하세요<br />
-              복잡한 호환성 계산은 Serveria가 알아서 처리합니다
+              복잡한 호환성 계산은 Serveria에게 맡겨주세요
             </p>
           </div>
 
