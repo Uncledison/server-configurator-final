@@ -1231,57 +1231,73 @@ if (showLegalModal === 'terms') {
         </div>
       </section>
 
-      {/* Testimonials Section */}
-      <section id="testimonials" className="py-20 px-6 bg-black/20">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-              고객들의 이야기
-            </h2>
-            <p className="text-xl text-slate-300">
-              실제 사용 고객들이 경험한 Serveria의 가치
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              {
-                quote: "구매팀에서 요청한 서버 견적을 5분만에 완성했어요. 예전에는 반나절은 걸렸는데 정말 혁신적입니다.",
-                author: "김철수 팀장",
-                company: "삼성전자 IT인프라팀",
-                rating: 5
-              },
-              {
-                quote: "복잡한 GPU 서버 구성도 쉽게 할 수 있어서 놀랐습니다. 호환성 체크까지 자동으로 해주니 실수할 걱정이 없어요.",
-                author: "박영희 연구원", 
-                company: "KAIST AI연구소",
-                rating: 5
-              },
-              {
-                quote: "세금계산서까지 자동으로 나와서 회계팀이 좋아해요. B2B 특화 기능들이 정말 실용적입니다.",
-                author: "이민수 대리",
-                company: "네이버 클라우드팀", 
-                rating: 5
-              }
-            ].map((testimonial, index) => (
-              <div key={index} className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 transition-all duration-300 hover:bg-white/15 transform hover:-translate-y-2 hover:shadow-xl">
-                <div className="flex mb-4">
-                  {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} className="h-5 w-5 text-yellow-400 fill-current" />
-                  ))}
-                </div>
-                <blockquote className="text-slate-300 mb-6 text-lg leading-relaxed">
-                  "{testimonial.quote}"
-                </blockquote>
-                <div>
-                  <div className="text-white font-semibold">{testimonial.author}</div>
-                  <div className="text-slate-400 text-sm">{testimonial.company}</div>
-                </div>
-              </div>
+     {/* Testimonials 섹션 */}
+<section className="py-20 px-6 bg-black/20">
+  <div className="max-w-7xl mx-auto">
+    <div className="text-center mb-16">
+      <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+        고객들의 이야기
+      </h2>
+      <p className="text-xl text-slate-300">
+        실제 사용 고객들이 경험한 Serveria의 가치
+      </p>
+    </div>
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+      {[
+        {
+          name: "김철수",
+          role: "스타트업 CTO",
+          company: "테크스타트업",
+          content: "구매팀에서 요청한 서버 견적을 5분만에 완성했어요. 예전에는 반나절은 걸렸는데 정말 혁신적입니다.",
+          avatar: "👨‍💻",
+          rating: 5
+        },
+        {
+          name: "박영희",
+          role: "IT 매니저", 
+          company: "글로벌 제조업체",
+          content: "복잡한 GPU 서버 구성도 쉽게 할 수 있어서 놀랐습니다. 호환성 체크까지 자동으로 해주니 실수할 걱정이 없어요.",
+          avatar: "👩‍💼",
+          rating: 5
+        },
+        {
+          name: "이민수",
+          role: "시스템 엔지니어",
+          company: "대기업 IT부서",
+          content: "세금계산서까지 자동으로 나와서 회계팀이 좋아해요. B2B 특화 기능들이 정말 실용적입니다.",
+          avatar: "👨‍🔧",
+          rating: 5
+        }
+      ].map((testimonial, index) => (
+        <div key={index} className="bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 p-6">
+          {/* 별점 */}
+          <div className="flex text-yellow-400 mb-4">
+            {[...Array(testimonial.rating)].map((_, i) => (
+              <Star key={i} className="h-5 w-5 fill-current" />
             ))}
           </div>
+          
+          {/* 후기 내용 */}
+          <p className="text-slate-300 leading-relaxed mb-6 text-lg">
+            "{testimonial.content}"
+          </p>
+          
+          {/* 고객 정보 */}
+          <div className="flex items-center">
+            <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold mr-4">
+              {testimonial.name.charAt(0)}
+            </div>
+            <div>
+              <h4 className="text-white font-semibold">{testimonial.name}</h4>
+              <p className="text-blue-400 text-sm">{testimonial.role}</p>
+              <p className="text-slate-400 text-sm">{testimonial.company}</p>
+            </div>
+          </div>
         </div>
-      </section>
+      ))}
+    </div>
+  </div>
+</section>
 
       {/* CTA Section */}
       <section className="py-20 px-6">
