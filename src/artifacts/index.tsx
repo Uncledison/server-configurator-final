@@ -1083,7 +1083,7 @@ const ServeriaApp = () => {
               <div key={index} className="text-center relative group">
                 <div className="bg-white/10 backdrop-blur-sm rounded-xl p-8 border border-white/20 mb-6 transition-all duration-300 hover:bg-white/15 hover:shadow-xl transform hover:-translate-y-2">
                   <div className="text-6xl font-bold text-blue-400 mb-4 group-hover:scale-110 transition-transform duration-300">{step.step}</div>
-                  <div className="text-blue-400 mb-4 group-hover:scale-110 transition-transform duration-300 flex justify-center">
+                  <div className="text-purple-300 mb-4 group-hover:scale-110 transition-transform duration-300 flex justify-center">
                     {step.icon}
                   </div>
                   <h3 className="text-xl font-semibold text-white mb-3">{step.title}</h3>
