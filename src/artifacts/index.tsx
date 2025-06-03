@@ -9,6 +9,10 @@ import {
   AlertCircle, FileText, AlertTriangle
 } from 'lucide-react';
 
+// 새로운 페이지 컴포넌트들 import 추가
+import PrivacyPolicy from './components/PrivacyPolicy';
+import TermsOfService from './components/TermsOfService';
+
 // 타입 정의
 interface ComponentSpec {
   power: number;
@@ -593,7 +597,7 @@ ${errors.map((error, index) => `${index + 1}. ${error}`).join('\n')}
                       </div>
                     )}
 
-{/* 메모리 섹션 완성 */}
+                    {/* 메모리 섹션 */}
                     {configuredComponents.memory.length > 0 && (
                       <div>
                         <h4 className="text-white font-medium mb-2">메모리</h4>
@@ -707,6 +711,20 @@ const ServeriaApp = () => {
   const [activeSection, setActiveSection] = useState('hero');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
+  
+  // 새로운 페이지 상태 추가
+  const [showPrivacyPolicy, setShowPrivacyPolicy] = useState(false);
+  const [showTermsOfService, setShowTermsOfService] = useState(false);
+
+  // 개인정보 보호정책 페이지 표시
+  if (showPrivacyPolicy) {
+    return <PrivacyPolicy onBack={() => setShowPrivacyPolicy(false)} />;
+  }
+
+  // 이용약관 페이지 표시
+  if (showTermsOfService) {
+    return <TermsOfService onBack={() => setShowTermsOfService(false)} />;
+  }
 
   // 스크롤 감지
   useEffect(() => {
@@ -790,7 +808,7 @@ const ServeriaApp = () => {
     );
   }
 
-// Homepage 렌더링
+  // Homepage 렌더링
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 relative">
       {/* Navigation */}
@@ -1020,19 +1038,19 @@ const ServeriaApp = () => {
                 icon: <Clock className="h-8 w-8" />,
                 title: "시간 절약",
                 description: "기존 3시간 걸리던 작업을 5분으로 단축. 더 중요한 업무에 집중할 수 있습니다.",
-                color: "blue-400"
+                color: "red-400"
               },
               {
                 icon: <Users className="h-8 w-8" />,
                 title: "팀 협업 지원",
                 description: "팀원들과 구성을 공유하고 협업하세요. 버전 관리와 승인 프로세스를 지원합니다.",
-                color: "green-400"
+                color: "orange-400"
               },
               {
                 icon: <Shield className="h-8 w-8" />,
                 title: "B2B 특화 기능",
                 description: "기업 고객을 위한 세금계산서 자동 발행, API 연동, 대량 구성 처리를 지원합니다.",
-                color: "red-400"
+                color: "cyan-400"
               }
             ].map((feature, index) => (
               <div key={index} className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 hover:bg-white/15 transition-all duration-300 transform hover:-translate-y-2 hover:shadow-xl group">
@@ -1087,7 +1105,201 @@ const ServeriaApp = () => {
                     {step.icon}
                   </div>
                   <h3 className="text-xl font-semibold text-white mb-3">{step.title}</h3>
-                  <p className="text-slate-300">{step.description}</p>
+                  <p className="text-slate-300">{plan.description}</p>
+                </div>
+
+                <ul className="space-y-3 mb-8">
+                  {plan.features.map((feature, featureIndex) => (
+                    <li key={featureIndex} className="flex items-center text-slate-300">
+                      <CheckCircle className="h-5 w-5 text-green-400 mr-3 flex-shrink-0" />
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
+
+                <button 
+                  onClick={switchToBuilder}
+                  className={`w-full py-3 px-6 rounded-lg font-medium transition-all duration-300 ${
+                    plan.highlighted
+                      ? 'bg-blue-600 hover:bg-blue-700 text-white shadow-lg hover:shadow-blue-500/25'
+                      : 'bg-white/10 hover:bg-white/20 text-white border border-white/20'
+                  }`}
+                >
+                  14일 무료체험
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials Section */}
+      <section id="testimonials" className="py-20 px-6 bg-black/20">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+              고객들의 이야기
+            </h2>
+            <p className="text-xl text-slate-300">
+              실제 사용 고객들이 경험한 Serveria의 가치
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              {
+                quote: "구매팀에서 요청한 서버 견적을 5분만에 완성했어요. 예전에는 반나절은 걸렸는데 정말 혁신적입니다.",
+                author: "김철수 팀장",
+                company: "삼성전자 IT인프라팀",
+                rating: 5
+              },
+              {
+                quote: "복잡한 GPU 서버 구성도 쉽게 할 수 있어서 놀랐습니다. 호환성 체크까지 자동으로 해주니 실수할 걱정이 없어요.",
+                author: "박영희 연구원", 
+                company: "KAIST AI연구소",
+                rating: 5
+              },
+              {
+                quote: "세금계산서까지 자동으로 나와서 회계팀이 좋아해요. B2B 특화 기능들이 정말 실용적입니다.",
+                author: "이민수 대리",
+                company: "네이버 클라우드팀", 
+                rating: 5
+              }
+            ].map((testimonial, index) => (
+              <div key={index} className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 transition-all duration-300 hover:bg-white/15 transform hover:-translate-y-2 hover:shadow-xl">
+                <div className="flex mb-4">
+                  {[...Array(testimonial.rating)].map((_, i) => (
+                    <Star key={i} className="h-5 w-5 text-yellow-400 fill-current" />
+                  ))}
+                </div>
+                <blockquote className="text-slate-300 mb-6 text-lg leading-relaxed">
+                  "{testimonial.quote}"
+                </blockquote>
+                <div>
+                  <div className="text-white font-semibold">{testimonial.author}</div>
+                  <div className="text-slate-400 text-sm">{testimonial.company}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-20 px-6">
+        <div className="max-w-4xl mx-auto text-center">
+          <div className="bg-gradient-to-r from-blue-600/20 to-purple-600/20 backdrop-blur-sm rounded-2xl p-12 border border-white/20 shadow-2xl">
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+              지금 바로 시작해보세요
+            </h2>
+            <p className="text-xl text-slate-300 mb-8">
+              신용카드 등록 없이 14일 무료 체험
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <button 
+                onClick={switchToBuilder}
+                className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-xl text-lg font-medium transition-all duration-300 transform hover:scale-105 inline-flex items-center justify-center shadow-lg hover:shadow-blue-500/25"
+              >
+                무료로 서버 구성하기
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </button>
+              <button className="border border-white/20 hover:bg-white/10 text-white px-8 py-4 rounded-xl text-lg font-medium transition-all duration-300 inline-flex items-center justify-center backdrop-blur-sm">
+                영업팀과 상담하기
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="bg-black/40 border-t border-white/10 py-12 px-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+            <div>
+              <div className="flex items-center space-x-2 mb-4">
+                <Server className="h-6 w-6 text-white" />
+                <span className="text-lg font-bold text-white">Serveria</span>
+              </div>
+              <p className="text-slate-400 mb-4">
+                전문적인 서버 구성 도구
+              </p>
+              <div className="space-y-2">
+                <div className="flex items-center text-slate-400">
+                  <Mail className="h-4 w-4 mr-2" />
+                  <span className="text-sm">contact@serveria.co.kr</span>
+                </div>
+                <div className="flex items-center text-slate-400">
+                  <Phone className="h-4 w-4 mr-2" />
+                  <span className="text-sm">02-1234-5678</span>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <h4 className="text-white font-semibold mb-4">제품</h4>
+              <ul className="space-y-2 text-slate-400">
+                <li><button onClick={switchToBuilder} className="hover:text-white transition-colors text-left">서버 구성 도구</button></li>
+                <li><a href="#" onClick={() => scrollToSection('pricing')} className="hover:text-white transition-colors cursor-pointer">요금제</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">API 문서</a></li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="text-white font-semibold mb-4">지원</h4>
+              <ul className="space-y-2 text-slate-400">
+                <li><a href="#" className="hover:text-white transition-colors">사용 가이드</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">FAQ</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">기술 지원</a></li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="text-white font-semibold mb-4">법적 고지</h4>
+              <ul className="space-y-2 text-slate-400">
+                <li>
+                  <button 
+                    onClick={() => setShowPrivacyPolicy(true)} 
+                    className="hover:text-white transition-colors text-left"
+                  >
+                    개인정보 보호정책
+                  </button>
+                </li>
+                <li>
+                  <button 
+                    onClick={() => setShowTermsOfService(true)} 
+                    className="hover:text-white transition-colors text-left"
+                  >
+                    이용약관
+                  </button>
+                </li>
+                <li><a href="#" className="hover:text-white transition-colors">사이트맵</a></li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="border-t border-white/10 pt-8 text-center">
+            <p className="text-slate-400">
+              © 2025 Serveria. All rights reserved.
+            </p>
+          </div>
+        </div>
+      </footer>
+
+      {/* Back to Top Button */}
+      {showScrollTop && (
+        <button
+          onClick={scrollToTop}
+          className="fixed bottom-8 right-8 w-12 h-12 bg-blue-600 hover:bg-blue-700 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-110 z-50"
+          aria-label="맨 위로 이동"
+        >
+          <ArrowUp className="h-6 w-6 mx-auto" />
+        </button>
+      )}
+    </div>
+  );
+};
+
+export default ServeriaApp;="text-slate-300">{step.description}</p>
                 </div>
                 {index < 2 && (
                   <div className="hidden md:block absolute top-1/2 -right-4 w-8 h-0.5 bg-gradient-to-r from-blue-400 to-purple-400"></div>
@@ -1332,11 +1544,25 @@ const ServeriaApp = () => {
             </div>
 
             <div>
-              <h4 className="text-white font-semibold mb-4">회사</h4>
+              <h4 className="text-white font-semibold mb-4">법적 고지</h4>
               <ul className="space-y-2 text-slate-400">
-                <li><a href="#" className="hover:text-white transition-colors">회사 소개</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">채용 정보</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">보도자료</a></li>
+                <li>
+                  <button 
+                    onClick={() => setShowPrivacyPolicy(true)} 
+                    className="hover:text-white transition-colors text-left"
+                  >
+                    개인정보 보호정책
+                  </button>
+                </li>
+                <li>
+                  <button 
+                    onClick={() => setShowTermsOfService(true)} 
+                    className="hover:text-white transition-colors text-left"
+                  >
+                    이용약관
+                  </button>
+                </li>
+                <li><a href="#" className="hover:text-white transition-colors">사이트맵</a></li>
               </ul>
             </div>
           </div>
