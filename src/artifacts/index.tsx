@@ -9,6 +9,10 @@ import {
   AlertCircle, FileText, AlertTriangle
 } from 'lucide-react';
 
+import PrivacyPolicy from '../components/PrivacyPolicy';
+import TermsOfService from '../components/TermsOfService';
+import CookiePolicy from '../components/CookiePolicy';
+
 // 타입 정의
 interface ComponentSpec {
   power: number;
@@ -707,6 +711,8 @@ const ServeriaApp = () => {
   const [activeSection, setActiveSection] = useState('hero');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
+  const [showLegalModal, setShowLegalModal] = useState<'privacy' | 'terms' | null>(null);
+  const [showCookiePolicy, setShowCookiePolicy] = useState(false);
 
   // 스크롤 감지
   useEffect(() => {
@@ -754,9 +760,25 @@ const ServeriaApp = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+// 개인정보 보호정책 페이지 표시
+if (showLegalModal === 'privacy') {
+  return <PrivacyPolicy onBack={() => setShowLegalModal(null)} />;
+}
+
+// 이용약관 페이지 표시  
+if (showLegalModal === 'terms') {
+  return <TermsOfService onBack={() => setShowLegalModal(null)} />;
+}
+
+  // 쿠키 정책 페이지 표시
+if (showCookiePolicy) {
+  return <CookiePolicy onBack={() => setShowCookiePolicy(false)} />;
+}
+  
+  
   if (currentMode === 'builder') {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">       
         {/* Builder Navigation */}
         <nav className="fixed top-0 w-full z-50 bg-slate-900/90 backdrop-blur-md border-b border-white/10">
           <div className="max-w-7xl mx-auto px-6 py-4">
@@ -880,7 +902,7 @@ const ServeriaApp = () => {
       </nav>
 
       {/* Hero Section */}
-      <section id="hero" className="min-h-screen flex items-center justify-center px-6 pt-20 relative overflow-hidden">
+      <section id="hero" className="min-h-screen flex items-center justify-center px-6 pt-12 relative overflow-hidden">
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-500/10 rounded-full blur-3xl"></div>
           <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl"></div>
@@ -895,7 +917,7 @@ const ServeriaApp = () => {
               </span> <br />
               되나요?
             </h1>
-            <p className="text-xl md:text-2xl text-slate-300 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-xl md:text-xl text-slate-300 max-w-3xl mx-auto leading-relaxed">
               드래그 & 드롭만으로 전문적인 서버 사양서를 완성하세요<br />
               복잡한 호환성 계산은 Serveria에게 맡겨주세요
             </p>
@@ -985,7 +1007,7 @@ const ServeriaApp = () => {
       </section>
 
       {/* Features Section */}
-      <section id="features" className="py-20 px-6">
+      <section id="features" className="pt-32 pb-20 px-6">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
@@ -1036,8 +1058,8 @@ const ServeriaApp = () => {
               }
             ].map((feature, index) => (
               <div key={index} className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 hover:bg-white/15 transition-all duration-300 transform hover:-translate-y-2 hover:shadow-xl group">
-                <div className={`text-${feature.color} mb-4 transform group-hover:scale-110 transition-transform duration-300`}>
-                  {feature.icon}
+                <div className={`text-${feature.color} mb-4 transform group-hover:scale-110 group-hover:translate-x-2 transition-transform duration-300`}>
+                {feature.icon}
                 </div>
                 <h3 className="text-xl font-semibold text-white mb-3">{feature.title}</h3>
                 <p className="text-slate-300">{feature.description}</p>
@@ -1048,7 +1070,7 @@ const ServeriaApp = () => {
       </section>
 
       {/* How It Works Section */}
-      <section id="how-it-works" className="py-20 px-6 bg-black/20">
+     <section id="how-it-works" className="pt-32 pb-20 px-6 bg-black/20">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
@@ -1089,13 +1111,18 @@ const ServeriaApp = () => {
                   <h3 className="text-xl font-semibold text-white mb-3">{step.title}</h3>
                   <p className="text-slate-300">{step.description}</p>
                 </div>
+                
                 {index < 2 && (
-                  <div className="hidden md:block absolute top-1/2 -right-4 w-8 h-0.5 bg-gradient-to-r from-blue-400 to-purple-400"></div>
-                )}
-              </div>
+                <div className="hidden md:flex absolute top-1/2 -right-4 w-8 h-8 items-center justify-center transform -translate-y-1/2 translate-x-1/2">
+                <ArrowRight className="h-5 w-5 text-blue-400" />
+                </div>
+                
+                 )}
+                 </div>
             ))}
           </div>
 
+              
           <div className="text-center">
             <button 
               onClick={switchToBuilder}
@@ -1109,7 +1136,7 @@ const ServeriaApp = () => {
       </section>
 
       {/* Pricing Section */}
-      <section id="pricing" className="py-20 px-6">
+      <section id="pricing" className="pt-32 pb-20 px-6">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
@@ -1211,12 +1238,12 @@ const ServeriaApp = () => {
         </div>
       </section>
 
-      {/* Testimonials Section */}
-      <section id="testimonials" className="py-20 px-6 bg-black/20">
+     {/* Testimonials 섹션 */}
+      <section id="testimonials" className="pt-32 pb-20 px-6 bg-black/20">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-              고객들의 이야기
+            고객들의 이야기
             </h2>
             <p className="text-xl text-slate-300">
               실제 사용 고객들이 경험한 Serveria의 가치
@@ -1226,36 +1253,42 @@ const ServeriaApp = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
               {
-                quote: "구매팀에서 요청한 서버 견적을 5분만에 완성했어요. 예전에는 반나절은 걸렸는데 정말 혁신적입니다.",
-                author: "김철수 팀장",
-                company: "삼성전자 IT인프라팀",
-                rating: 5
+                name: "김철수",
+                role: "스타트업 CTO",
+                company: "테크스타트업",
+                content: "서버 구성에 대한 지식이 부족했는데, Serveria 덕분에 완벽한 서버를 구성할 수 있었습니다. 정말 직관적이에요!",
+                avatar: "👨‍💻"
               },
               {
-                quote: "복잡한 GPU 서버 구성도 쉽게 할 수 있어서 놀랐습니다. 호환성 체크까지 자동으로 해주니 실수할 걱정이 없어요.",
-                author: "박영희 연구원", 
-                company: "KAIST AI연구소",
-                rating: 5
+                name: "박영희",
+                role: "IT 매니저", 
+                company: "글로벌 제조업체",
+                content: "팀원들과 함께 서버 구성을 검토하고 결정할 수 있어서 정말 편했습니다. 의사결정 시간이 절반으로 줄었어요.",
+                avatar: "👩‍💼"
               },
               {
-                quote: "세금계산서까지 자동으로 나와서 회계팀이 좋아해요. B2B 특화 기능들이 정말 실용적입니다.",
-                author: "이민수 대리",
-                company: "네이버 클라우드팀", 
-                rating: 5
+                name: "이민수",
+                role: "시스템 엔지니어",
+                company: "대기업 IT부서",
+                content: "호환성 체크 기능이 정말 유용합니다. 예전에는 부품 구매 후 호환 문제로 고생했는데, 이제는 그런 걱정이 없어요.",
+                avatar: "👨‍🔧"
               }
             ].map((testimonial, index) => (
-              <div key={index} className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 transition-all duration-300 hover:bg-white/15 transform hover:-translate-y-2 hover:shadow-xl">
-                <div className="flex mb-4">
-                  {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} className="h-5 w-5 text-yellow-400 fill-current" />
-                  ))}
+              <div key={index} className="bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 p-8">
+                <div className="flex items-center mb-6">
+                  <div className="text-4xl mr-4">{testimonial.avatar}</div>
+                  <div>
+                    <h4 className="text-white font-bold">{testimonial.name}</h4>
+                    <p className="text-slate-300 text-sm">{testimonial.role}</p>
+                    <p className="text-blue-400 text-sm">{testimonial.company}</p>
+                  </div>
                 </div>
-                <blockquote className="text-slate-300 mb-6 text-lg leading-relaxed">
-                  "{testimonial.quote}"
-                </blockquote>
-                <div>
-                  <div className="text-white font-semibold">{testimonial.author}</div>
-                  <div className="text-slate-400 text-sm">{testimonial.company}</div>
+                <Quote className="h-8 w-8 text-blue-400 mb-4" />
+                <p className="text-slate-300 leading-relaxed">{testimonial.content}</p>
+                <div className="flex text-yellow-400 mt-4">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="h-5 w-5 fill-current" />
+                  ))}
                 </div>
               </div>
             ))}
@@ -1263,26 +1296,27 @@ const ServeriaApp = () => {
         </div>
       </section>
 
-      {/* CTA Section */}
+      {/* CTA 섹션 */}
       <section className="py-20 px-6">
         <div className="max-w-4xl mx-auto text-center">
-          <div className="bg-gradient-to-r from-blue-600/20 to-purple-600/20 backdrop-blur-sm rounded-2xl p-12 border border-white/20 shadow-2xl">
+          <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-3xl p-12">
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-              지금 바로 시작해보세요
+              지금 바로 시작하세요!
             </h2>
-            <p className="text-xl text-slate-300 mb-8">
-              신용카드 등록 없이 14일 무료 체험
+            <p className="text-xl text-blue-100 mb-8">
+              신용카드 등록 없이 14일 무료 체험하세요.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <button 
                 onClick={switchToBuilder}
-                className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-xl text-lg font-medium transition-all duration-300 transform hover:scale-105 inline-flex items-center justify-center shadow-lg hover:shadow-blue-500/25"
+                className="bg-white text-blue-600 px-8 py-4 rounded-xl text-lg font-bold hover:bg-gray-100 transition-all duration-300 transform hover:scale-105 inline-flex items-center justify-center"
               >
-                무료로 서버 구성하기
-                <ArrowRight className="ml-2 h-5 w-5" />
+                <PlayCircle className="mr-2 h-6 w-6" />
+                무료 체험 시작
               </button>
-              <button className="border border-white/20 hover:bg-white/10 text-white px-8 py-4 rounded-xl text-lg font-medium transition-all duration-300 inline-flex items-center justify-center backdrop-blur-sm">
-                영업팀과 상담하기
+              <button className="border-2 border-white text-white px-8 py-4 rounded-xl text-lg font-medium hover:bg-white/10 transition-all duration-300 inline-flex items-center justify-center">
+                영업팀 문의
+                <ArrowRight className="ml-2 h-6 w-6" />
               </button>
             </div>
           </div>
@@ -1331,14 +1365,35 @@ const ServeriaApp = () => {
               </ul>
             </div>
 
-            <div>
-              <h4 className="text-white font-semibold mb-4">회사</h4>
-              <ul className="space-y-2 text-slate-400">
-                <li><a href="#" className="hover:text-white transition-colors">회사 소개</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">채용 정보</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">보도자료</a></li>
-              </ul>
-            </div>
+     <div>
+  <h4 className="text-white font-semibold mb-4">법적 고지</h4>
+  <ul className="space-y-2 text-slate-400">
+    <li>
+      <button 
+        onClick={() => setShowLegalModal('privacy')} 
+        className="hover:text-white transition-colors text-left"
+      >
+        개인정보 보호정책
+      </button>
+    </li>
+    <li>
+      <button 
+        onClick={() => setShowLegalModal('terms')} 
+        className="hover:text-white transition-colors text-left"
+      >
+        이용약관
+      </button>
+    </li>
+<li>
+  <button 
+    onClick={() => setShowCookiePolicy(true)} 
+    className="hover:text-white transition-colors text-left"
+  >
+    쿠키 정책
+  </button>
+</li>    
+  </ul>
+</div>
           </div>
 
           <div className="border-t border-white/10 pt-8 text-center">
