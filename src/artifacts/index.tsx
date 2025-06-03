@@ -1289,26 +1289,27 @@ if (showLegalModal === 'terms') {
         </div>
       </section>
 
-      {/* CTA Section */}
+      {/* CTA 섹션 */}
       <section className="py-20 px-6">
         <div className="max-w-4xl mx-auto text-center">
-          <div className="bg-gradient-to-r from-blue-600/20 to-purple-600/20 backdrop-blur-sm rounded-2xl p-12 border border-white/20 shadow-2xl">
+          <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-3xl p-12">
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-              지금 바로 시작해보세요
+              지금 바로 시작하세요!
             </h2>
-            <p className="text-xl text-slate-300 mb-8">
-              신용카드 등록 없이 14일 무료 체험
+            <p className="text-xl text-blue-100 mb-8">
+              신용카드 등록 없이 14일 무료 체험하세요.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <button 
                 onClick={switchToBuilder}
-                className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-xl text-lg font-medium transition-all duration-300 transform hover:scale-105 inline-flex items-center justify-center shadow-lg hover:shadow-blue-500/25"
+                className="bg-white text-blue-600 px-8 py-4 rounded-xl text-lg font-bold hover:bg-gray-100 transition-all duration-300 transform hover:scale-105 inline-flex items-center justify-center"
               >
-                무료로 서버 구성하기
-                <ArrowRight className="ml-2 h-5 w-5" />
+                <PlayCircle className="mr-2 h-6 w-6" />
+                무료 체험 시작
               </button>
-              <button className="border border-white/20 hover:bg-white/10 text-white px-8 py-4 rounded-xl text-lg font-medium transition-all duration-300 inline-flex items-center justify-center backdrop-blur-sm">
-                영업팀과 상담하기
+              <button className="border-2 border-white text-white px-8 py-4 rounded-xl text-lg font-medium hover:bg-white/10 transition-all duration-300 inline-flex items-center justify-center">
+                영업팀 문의
+                <ArrowRight className="ml-2 h-6 w-6" />
               </button>
             </div>
           </div>
