@@ -758,49 +758,14 @@ const ServeriaApp = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-if (showLegalModal) {
-  return (
-    <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div className="bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 max-w-4xl max-h-[90vh] overflow-y-auto">
-        <div className="p-8">
-          <div className="flex items-center justify-between mb-8">
-            <h1 className="text-3xl font-bold text-white">
-              {showLegalModal === 'privacy' ? '개인정보 보호정책' : '서비스 이용약관'}
-            </h1>
-            <button 
-              onClick={() => setShowLegalModal(null)}
-              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition-colors"
-            >
-              닫기
-            </button>
-          </div>
-          
-          {showLegalModal === 'privacy' && (
-            <div className="text-slate-300 space-y-6">
-              <section>
-                <h2 className="text-xl font-semibold text-white mb-4">1. 개인정보의 수집 및 이용목적</h2>
-                <p>Serveria는 다음의 목적을 위하여 개인정보를 처리합니다:</p>
-                <ul className="list-disc list-inside mt-2 space-y-1">
-                  <li>회원가입 및 회원관리</li>
-                  <li>서비스 제공 및 계약의 이행</li>
-                  <li>고객상담 및 불만처리</li>
-                </ul>
-              </section>
-            </div>
-          )}
+// 개인정보 보호정책 페이지 표시
+if (showLegalModal === 'privacy') {
+  return <PrivacyPolicy onBack={() => setShowLegalModal(null)} />;
+}
 
-          {showLegalModal === 'terms' && (
-            <div className="text-slate-300 space-y-6">
-              <section>
-                <h2 className="text-xl font-semibold text-white mb-4">제1조 (목적)</h2>
-                <p>이 약관은 Serveria가 제공하는 서버 구성 서비스 이용에 관한 사항을 규정합니다.</p>
-              </section>
-            </div>
-          )}
-        </div>
-      </div>
-    </div>
-  );
+// 이용약관 페이지 표시  
+if (showLegalModal === 'terms') {
+  return <TermsOfService onBack={() => setShowLegalModal(null)} />;
 }
 
   
