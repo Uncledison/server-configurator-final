@@ -755,16 +755,11 @@ const ServeriaApp = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  if (currentMode === 'builder') {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
-// 법적 고지 모달 표시 (기존 return 문 앞에 추가)
 if (showLegalModal) {
   return (
     <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
       <div className="bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 max-w-4xl max-h-[90vh] overflow-y-auto">
         <div className="p-8">
-          {/* 헤더 */}
           <div className="flex items-center justify-between mb-8">
             <h1 className="text-3xl font-bold text-white">
               {showLegalModal === 'privacy' ? '개인정보 보호정책' : '서비스 이용약관'}
@@ -777,7 +772,6 @@ if (showLegalModal) {
             </button>
           </div>
           
-          {/* 개인정보 보호정책 내용 */}
           {showLegalModal === 'privacy' && (
             <div className="text-slate-300 space-y-6">
               <section>
@@ -787,54 +781,16 @@ if (showLegalModal) {
                   <li>회원가입 및 회원관리</li>
                   <li>서비스 제공 및 계약의 이행</li>
                   <li>고객상담 및 불만처리</li>
-                  <li>마케팅 및 광고에의 활용</li>
                 </ul>
-              </section>
-              <section>
-                <h2 className="text-xl font-semibold text-white mb-4">2. 수집하는 개인정보의 항목</h2>
-                <p>수집하는 개인정보의 항목은 다음과 같습니다:</p>
-                <ul className="list-disc list-inside mt-2 space-y-1">
-                  <li>필수항목: 이름, 이메일 주소, 연락처</li>
-                  <li>선택항목: 회사명, 부서, 직급</li>
-                  <li>자동수집: IP주소, 쿠키, 서비스 이용기록</li>
-                </ul>
-              </section>
-              <section>
-                <h2 className="text-xl font-semibold text-white mb-4">3. 개인정보보호책임자</h2>
-                <div className="bg-slate-800/50 p-4 rounded-lg">
-                  <p><strong>담당자:</strong> 개인정보보호담당자</p>
-                  <p><strong>연락처:</strong> privacy@serveria.com</p>
-                  <p><strong>전화:</strong> 02-1234-5678</p>
-                </div>
               </section>
             </div>
           )}
 
-          {/* 이용약관 내용 */}
           {showLegalModal === 'terms' && (
             <div className="text-slate-300 space-y-6">
               <section>
                 <h2 className="text-xl font-semibold text-white mb-4">제1조 (목적)</h2>
-                <p>이 약관은 Serveria가 제공하는 서버 구성 및 관련 서비스의 이용과 관련하여 회사와 이용자간의 권리, 의무 및 책임사항을 규정함을 목적으로 합니다.</p>
-              </section>
-              <section>
-                <h2 className="text-xl font-semibold text-white mb-4">제2조 (정의)</h2>
-                <ul className="list-disc list-inside space-y-2">
-                  <li><strong>서비스:</strong> Serveria가 제공하는 서버 구성 도구</li>
-                  <li><strong>이용자:</strong> 서비스를 받는 회원 및 비회원</li>
-                  <li><strong>회원:</strong> 회원등록을 한 자</li>
-                </ul>
-              </section>
-              <section>
-                <h2 className="text-xl font-semibold text-white mb-4">제3조 (서비스의 제공)</h2>
-                <p>회사는 서버 하드웨어 구성 도구, 호환성 검증, 견적서 생성 서비스를 제공합니다.</p>
-              </section>
-              <section>
-                <h2 className="text-xl font-semibold text-white mb-4">문의처</h2>
-                <div className="bg-slate-800/50 p-4 rounded-lg">
-                  <p><strong>이메일:</strong> support@serveria.com</p>
-                  <p><strong>전화:</strong> 02-1234-5678</p>
-                </div>
+                <p>이 약관은 Serveria가 제공하는 서버 구성 서비스 이용에 관한 사항을 규정합니다.</p>
               </section>
             </div>
           )}
@@ -844,7 +800,10 @@ if (showLegalModal) {
   );
 }
 
-        
+  
+  if (currentMode === 'builder') {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">       
         {/* Builder Navigation */}
         <nav className="fixed top-0 w-full z-50 bg-slate-900/90 backdrop-blur-md border-b border-white/10">
           <div className="max-w-7xl mx-auto px-6 py-4">
