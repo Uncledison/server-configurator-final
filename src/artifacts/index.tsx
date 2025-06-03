@@ -10,8 +10,8 @@ import {
 } from 'lucide-react';
 
 // 새로운 페이지 컴포넌트들 import 추가
-import PrivacyPolicy from './components/PrivacyPolicy';
-import TermsOfService from './components/TermsOfService';
+import PrivacyPolicy from '../components/PrivacyPolicy';
+import TermsOfService from '../components/TermsOfService';
 
 // 타입 정의
 interface ComponentSpec {
