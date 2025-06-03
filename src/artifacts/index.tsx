@@ -712,6 +712,7 @@ const ServeriaApp = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [showLegalModal, setShowLegalModal] = useState<'privacy' | 'terms' | null>(null);
+  const [showCookiePolicy, setShowCookiePolicy] = useState(false);
 
   // 스크롤 감지
   useEffect(() => {
