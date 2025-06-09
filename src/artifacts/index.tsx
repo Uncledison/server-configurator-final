@@ -846,17 +846,17 @@ if (showCookiePolicy) {
               ))}
             </div>
 
-       <div className="hidden md:flex items-center space-x-4">
-  <button className="text-slate-300 hover:text-white transition-colors duration-200">
-    로그인
-  </button>
-  <button 
-    onClick={switchToBuilder}
-    className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors duration-200 shadow-lg hover:shadow-blue-500/25"
-  >
-    무료 체험
-  </button>
-</div>
+            <div className="hidden md:flex items-center space-x-4">
+              <button className="text-slate-300 hover:text-white transition-colors duration-200">
+                로그인
+              </button>
+              <button 
+                onClick={switchToBuilder}
+                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors duration-200 shadow-lg hover:shadow-blue-500/25"
+              >
+                무료 체험
+              </button>
+            </div>
 
             <button 
               className="md:hidden text-white transition-transform duration-200 hover:scale-110"
@@ -884,17 +884,18 @@ if (showCookiePolicy) {
                     {item.label}
                   </button>
                 ))}
-          <div className="flex flex-col space-y-2 pt-4 border-t border-white/10">
-  <button className="text-slate-300 hover:text-white transition-colors text-left duration-200">
-    로그인
-  </button>
-  <button 
-    onClick={switchToBuilder}
-    className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors duration-200"
-  >
-    무료 체험
-  </button>
-</div>
+                <div className="flex flex-col space-y-2 pt-4 border-t border-white/10">
+                  <button className="text-slate-300 hover:text-white transition-colors text-left duration-200">
+                    로그인
+                  </button>
+                  <button 
+                    onClick={switchToBuilder}
+                    className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors duration-200"
+                  >
+                    무료 체험
+                  </button>
+                </div>
+              </div>
             </div>
           )}
         </div>
