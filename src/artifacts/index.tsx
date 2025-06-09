@@ -69,25 +69,84 @@ const ServerConfigurator = () => {
   const [showCanvas, setShowCanvas] = useState<boolean>(false);
   const [errors, setErrors] = useState<string[]>([]);
 
-  // 서버 스펙 정의 - HP 3개, Dell 3개 순서
+  // 서버 스펙 정의 - HP 3개, Dell 3개 순서 (DL380 Gen10과 Gen10 Plus를 Gen11과 Gen12로 교체)
   const serverSpecs: ServerSpecs = useMemo(() => ({
-    'HPE ProLiant DL380 Gen10': {
+    'HPE ProLiant DL380 Gen11': {
       maxCPU: 2,
-      maxMemory: 3072,
-      maxGPU: 4,
-      compatibleCPUs: ['Intel Xeon Silver 4314', 'Intel Xeon Gold 5118', 'Intel Xeon Scalable 1st/2nd Gen'],
-      compatibleMemory: ['32GB DDR4-2933', '64GB DDR4-2933', '128GB DDR4-2933'],
-      compatibleGPUs: ['NVIDIA Tesla V100', 'NVIDIA RTX A6000', 'NVIDIA A100', 'NVIDIA H100'],
-      maxPowerConsumption: 800
+      maxMemory: 8192,
+      maxGPU: 8,
+      compatibleCPUs: [
+        // 5th Gen Platinum
+        'Intel Xeon Platinum 8593Q','Intel Xeon Platinum 8592+','Intel Xeon Platinum 8592V',
+        'Intel Xeon Platinum 8581V1','Intel Xeon Platinum 8580','Intel Xeon Platinum 8570',
+        'Intel Xeon Platinum 8568Y','Intel Xeon Platinum 8562Y+','Intel Xeon Platinum 8558P',
+        'Intel Xeon Platinum 8558','Intel Xeon Platinum 8558U1',
+        // 5th Gen Gold 6
+        'Intel Xeon Gold 6558Q','Intel Xeon Gold 6554S','Intel Xeon Gold 6548N',
+        'Intel Xeon Gold 6548Y+','Intel Xeon Gold 6544Y','Intel Xeon Gold 6542Y',
+        'Intel Xeon Gold 6538N','Intel Xeon Gold 6538Y+','Intel Xeon Gold 6534',
+        'Intel Xeon Gold 6530','Intel Xeon Gold 6526Y',
+        // 5th Gen Gold 5
+        'Intel Xeon Gold 5520+','Intel Xeon Gold 5515+',
+        // 5th Gen Silver
+        'Intel Xeon Silver 4516Y+','Intel Xeon Silver 4514Y','Intel Xeon Silver 4510',
+        'Intel Xeon Silver 4509Y',
+        // 5th Gen Bronze
+        'Intel Xeon Bronze 3508U',
+        // 4th Gen Platinum
+        'Intel Xeon Platinum 9462','Intel Xeon Platinum 8490H','Intel Xeon Platinum 8480+',
+        'Intel Xeon Platinum 8470','Intel Xeon Platinum 8470N','Intel Xeon Platinum 8470Q',
+        'Intel Xeon Platinum 8468','Intel Xeon Platinum 8468V','Intel Xeon Platinum 8462Y+',
+        'Intel Xeon Platinum 8460Y+','Intel Xeon Platinum 8458P','Intel Xeon Platinum 8452Y',
+        'Intel Xeon Platinum 8444H',
+        // 4th Gen Gold
+        'Intel Xeon Gold 6454S','Intel Xeon Gold 6448H','Intel Xeon Gold 6430',
+        'Intel Xeon Gold 6414U','Intel Xeon Gold 6458Q','Intel Xeon Gold 6448Y',
+        'Intel Xeon Gold 6444Y','Intel Xeon Gold 6442Y','Intel Xeon Gold 6438N',
+        'Intel Xeon Gold 6438Y+','Intel Xeon Gold 6434','Intel Xeon Gold 6426Y',
+        'Intel Xeon Gold 6421N','Intel Xeon Gold 6418H','Intel Xeon Gold 6416H',
+        'Intel Xeon Gold 5415+','Intel Xeon Gold 5416S','Intel Xeon Gold 5418N',
+        'Intel Xeon Gold 5418Y','Intel Xeon Gold 5420+','Intel Xeon Gold 5411N',
+        // 4th Gen Silver & Bronze
+        'Intel Xeon Silver 4410Y','Intel Xeon Silver 4416+','Intel Xeon Bronze 3408U'
+      ],
+      compatibleMemory: [
+        '16GB DDR5-5600','32GB DDR5-5600','64GB DDR5-5600','96GB DDR5-5600','128GB DDR5-5600','256GB DDR5-5600',
+        '16GB DDR5-4800','32GB DDR5-4800','64GB DDR5-4800','96GB DDR5-4800','128GB DDR5-4800','256GB DDR5-4800'
+      ],
+      compatibleGPUs: [
+        'Intel Data Center GPU Max 1100',
+        'NVIDIA H100 80GB PCIe Accelerator (R9S41C)',
+        'NVIDIA H100 NVL 94GB PCIe Accelerator (S2D86C)',
+        'NVIDIA RTX 4000 Ada Graphics Accelerator (S3T54C)',
+        'NVIDIA L40 48GB PCIe Accelerator (S0K90C)',
+        'NVIDIA L40S 48GB PCIe Accelerator (S2L70C)',
+        'NVIDIA L4 24GB PCIe Accelerator (S0K89C)',
+        'NVIDIA A16 64GB PCIe Accelerator (R8T26C)'
+      ],
+      maxPowerConsumption: 2200
     },
-    'HPE ProLiant DL360 Gen10 Plus': {
+    'HPE ProLiant DL380 Gen12': {
       maxCPU: 2,
-      maxMemory: 2048,
-      maxGPU: 2,
-      compatibleCPUs: ['Intel Xeon Silver 4314', 'Intel Xeon Gold 6248R', '3rd Gen Intel Xeon Scalable'],
-      compatibleMemory: ['32GB DDR4-3200', '64GB DDR4-3200', '128GB DDR4-3200'],
-      compatibleGPUs: ['NVIDIA RTX A6000', 'NVIDIA Tesla V100', 'NVIDIA A100'],
-      maxPowerConsumption: 800
+      maxMemory: 8192,
+      maxGPU: 8,
+      compatibleCPUs: [
+        'Intel Xeon 6710E', 'Intel Xeon 6731E', 'Intel Xeon 6740E', 'Intel Xeon 6746E', 'Intel Xeon 6756E', 'Intel Xeon 6766E',
+        'Intel Xeon 6780E', 'Intel Xeon 6507P', 'Intel Xeon 6517P', 'Intel Xeon 6527P', 'Intel Xeon 6730P', 'Intel Xeon 6736P',
+        'Intel Xeon 6737P', 'Intel Xeon 6747P', 'Intel Xeon 6767P', 'Intel Xeon 6787P', 'Intel Xeon 6505P', 'Intel Xeon 6515P',
+        'Intel Xeon 6520P', 'Intel Xeon 6740P', 'Intel Xeon 6760P', 'Intel Xeon 6714P', 'Intel Xeon 6724P',
+        'Intel Xeon 6728P', 'Intel Xeon 6738P', 'Intel Xeon 6748P', 'Intel Xeon 6768P', 'Intel Xeon 6788P'
+      ],
+      compatibleMemory: [
+        '16GB DDR5-6400 RDIMM','32GB DDR5-6400 RDIMM','64GB DDR5-6400 RDIMM',
+        '96GB DDR5-6400 RDIMM','128GB DDR5-6400 RDIMM','256GB DDR5-6400 RDIMM'
+      ],
+      compatibleGPUs: [
+        'NVIDIA H100 NVL 94GB PCIe Accelerator (S2D86C)',
+        'NVIDIA L40S 48GB PCIe Accelerator (S2L70C)',
+        'NVIDIA L4 24GB PCIe Accelerator (S0K89C)'
+      ],
+      maxPowerConsumption: 2200
     },
     'HPE ProLiant DL385 Gen11': {
       maxCPU: 2,
@@ -129,7 +188,7 @@ const ServerConfigurator = () => {
 
   // 컴포넌트 스펙 정의 (기존 + 새로운 컴포넌트)
   const componentSpecs: ComponentSpecs = useMemo(() => ({
-    // CPU
+    // 기존 CPU
     'Intel Xeon Gold 6248R': { power: 150, cores: 24 },
     'Intel Xeon Gold 6258R': { power: 205, cores: 28 },
     'Intel Xeon Silver 4214R': { power: 100, cores: 12 },
@@ -145,7 +204,82 @@ const ServerConfigurator = () => {
     'AMD EPYC Genoa': { power: 360, cores: 96 },
     'NVIDIA Grace CPU Superchip': { power: 500, cores: 144 },
     'ARM-based Grace CPU': { power: 500, cores: 144 },
-    // 메모리
+
+    // 새로운 HPE ProLiant DL380 Gen11 CPU
+    'Intel Xeon Gold 5520+': { power: 205, cores: 28 },
+    'Intel Xeon Gold 5515+': { power: 165, cores: 8 },
+    'Intel Xeon Silver 4516Y+': { power: 185, cores: 24 },
+    'Intel Xeon Silver 4514Y': { power: 150, cores: 16 },
+    'Intel Xeon Silver 4510': { power: 150, cores: 12 },
+    'Intel Xeon Silver 4509Y': { power: 125, cores: 8 },
+    'Intel Xeon Bronze 3508U': { power: 125, cores: 8 },
+    'Intel Xeon Platinum 9462': { power: 350, cores: 32 },
+    'Intel Xeon Platinum 8490H': { power: 350, cores: 60 },
+    'Intel Xeon Platinum 8470': { power: 350, cores: 52 },
+    'Intel Xeon Platinum 8470N': { power: 300, cores: 52 },
+    'Intel Xeon Platinum 8470Q': { power: 350, cores: 52 },
+    'Intel Xeon Platinum 8468': { power: 350, cores: 48 },
+    'Intel Xeon Platinum 8468V': { power: 330, cores: 48 },
+    'Intel Xeon Platinum 8462Y+': { power: 300, cores: 32 },
+    'Intel Xeon Platinum 8460Y+': { power: 300, cores: 40 },
+    'Intel Xeon Platinum 8458P': { power: 350, cores: 44 },
+    'Intel Xeon Platinum 8452Y': { power: 300, cores: 36 },
+    'Intel Xeon Platinum 8444H': { power: 270, cores: 16 },
+    'Intel Xeon Gold 6454S': { power: 270, cores: 32 },
+    'Intel Xeon Gold 6448H': { power: 250, cores: 32 },
+    'Intel Xeon Gold 6430': { power: 270, cores: 32 },
+    'Intel Xeon Gold 6414U': { power: 250, cores: 32 },
+    'Intel Xeon Gold 6458Q': { power: 350, cores: 32 },
+    'Intel Xeon Gold 6444Y': { power: 270, cores: 16 },
+    'Intel Xeon Gold 6442Y': { power: 225, cores: 24 },
+    'Intel Xeon Gold 6438N': { power: 205, cores: 32 },
+    'Intel Xeon Gold 6438Y+': { power: 205, cores: 32 },
+    'Intel Xeon Gold 6434': { power: 195, cores: 8 },
+    'Intel Xeon Gold 6426Y': { power: 185, cores: 16 },
+    'Intel Xeon Gold 6421N': { power: 185, cores: 32 },
+    'Intel Xeon Gold 6418H': { power: 185, cores: 24 },
+    'Intel Xeon Gold 6416H': { power: 165, cores: 18 },
+    'Intel Xeon Gold 5415+': { power: 150, cores: 8 },
+    'Intel Xeon Gold 5416S': { power: 150, cores: 16 },
+    'Intel Xeon Gold 5418N': { power: 165, cores: 24 },
+    'Intel Xeon Gold 5418Y': { power: 185, cores: 24 },
+    'Intel Xeon Gold 5420+': { power: 205, cores: 28 },
+    'Intel Xeon Gold 5411N': { power: 165, cores: 24 },
+    'Intel Xeon Silver 4410Y': { power: 150, cores: 12 },
+    'Intel Xeon Silver 4416+': { power: 165, cores: 20 },
+    'Intel Xeon Bronze 3408U': { power: 125, cores: 8 },
+
+    // 새로운 HPE ProLiant DL380 Gen12 CPU
+    'Intel Xeon 6710E': { power: 205, cores: 64 },
+    'Intel Xeon 6731E': { power: 250, cores: 96 },
+    'Intel Xeon 6740E': { power: 250, cores: 96 },
+    'Intel Xeon 6746E': { power: 250, cores: 112 },
+    'Intel Xeon 6756E': { power: 225, cores: 128 },
+    'Intel Xeon 6766E': { power: 250, cores: 144 },
+    'Intel Xeon 6780E': { power: 330, cores: 144 },
+    'Intel Xeon 6507P': { power: 150, cores: 8 },
+    'Intel Xeon 6517P': { power: 190, cores: 16 },
+    'Intel Xeon 6527P': { power: 255, cores: 24 },
+    'Intel Xeon 6730P': { power: 250, cores: 32 },
+    'Intel Xeon 6736P': { power: 205, cores: 36 },
+    'Intel Xeon 6737P': { power: 270, cores: 32 },
+    'Intel Xeon 6747P': { power: 330, cores: 48 },
+    'Intel Xeon 6767P': { power: 350, cores: 64 },
+    'Intel Xeon 6787P': { power: 350, cores: 86 },
+    'Intel Xeon 6505P': { power: 150, cores: 12 },
+    'Intel Xeon 6515P': { power: 150, cores: 16 },
+    'Intel Xeon 6520P': { power: 210, cores: 24 },
+    'Intel Xeon 6740P': { power: 270, cores: 48 },
+    'Intel Xeon 6760P': { power: 330, cores: 64 },
+    'Intel Xeon 6714P': { power: 195, cores: 8 },
+    'Intel Xeon 6724P': { power: 210, cores: 16 },
+    'Intel Xeon 6728P': { power: 210, cores: 24 },
+    'Intel Xeon 6738P': { power: 270, cores: 32 },
+    'Intel Xeon 6748P': { power: 300, cores: 48 },
+    'Intel Xeon 6768P': { power: 330, cores: 64 },
+    'Intel Xeon 6788P': { power: 350, cores: 86 },
+
+    // 기존 메모리
     '32GB DDR4-2933': { power: 15, memory: 32 },
     '64GB DDR4-2933': { power: 20, memory: 64 },
     '128GB DDR4-2933': { power: 25, memory: 128 },
@@ -158,7 +292,27 @@ const ServerConfigurator = () => {
     '128GB HBM3e': { power: 30, memory: 128 },
     '256GB HBM3e': { power: 45, memory: 256 },
     '512GB HBM3e': { power: 60, memory: 512 },
-    // GPU
+
+    // 새로운 메모리 - HPE ProLiant DL380 Gen11
+    '16GB DDR5-5600': { power: 8, memory: 16 },
+    '32GB DDR5-5600': { power: 12, memory: 32 },
+    '64GB DDR5-5600': { power: 18, memory: 64 },
+    '96GB DDR5-5600': { power: 24, memory: 96 },
+    '128GB DDR5-5600': { power: 25, memory: 128 },
+    '256GB DDR5-5600': { power: 35, memory: 256 },
+    '16GB DDR5-4800': { power: 7, memory: 16 },
+    '96GB DDR5-4800': { power: 19, memory: 96 },
+    '256GB DDR5-4800': { power: 30, memory: 256 },
+
+    // 새로운 메모리 - HPE ProLiant DL380 Gen12
+    '16GB DDR5-6400 RDIMM': { power: 8, memory: 16 },
+    '32GB DDR5-6400 RDIMM': { power: 12, memory: 32 },
+    '64GB DDR5-6400 RDIMM': { power: 18, memory: 64 },
+    '96GB DDR5-6400 RDIMM': { power: 24, memory: 96 },
+    '128GB DDR5-6400 RDIMM': { power: 25, memory: 128 },
+    '256GB DDR5-6400 RDIMM': { power: 35, memory: 256 },
+
+    // 기존 GPU
     'NVIDIA RTX A6000': { power: 300, memory: 48 },
     'NVIDIA Tesla V100': { power: 250, memory: 32 },
     'NVIDIA RTX 4090': { power: 450, memory: 24 },
@@ -167,7 +321,17 @@ const ServerConfigurator = () => {
     'NVIDIA L40S': { power: 350, memory: 48 },
     'NVIDIA B200 GPU': { power: 1000, memory: 192 },
     'NVIDIA GB200 NVL4': { power: 1200, memory: 256 },
-    'NVIDIA Blackwell': { power: 1000, memory: 192 }
+    'NVIDIA Blackwell': { power: 1000, memory: 192 },
+
+    // 새로운 GPU - HPE ProLiant DL380 Gen11
+    'Intel Data Center GPU Max 1100': { power: 300, memory: 48 },
+    'NVIDIA H100 80GB PCIe Accelerator (R9S41C)': { power: 350, memory: 80 },
+    'NVIDIA H100 NVL 94GB PCIe Accelerator (S2D86C)': { power: 400, memory: 94 },
+    'NVIDIA RTX 4000 Ada Graphics Accelerator (S3T54C)': { power: 130, memory: 20 },
+    'NVIDIA L40 48GB PCIe Accelerator (S0K90C)': { power: 300, memory: 48 },
+    'NVIDIA L40S 48GB PCIe Accelerator (S2L70C)': { power: 300, memory: 48 },
+    'NVIDIA L4 24GB PCIe Accelerator (S0K89C)': { power: 72, memory: 24 },
+    'NVIDIA A16 64GB PCIe Accelerator (R8T26C)': { power: 250, memory: 64 }
   }), []);
 
   // 타입 가드 함수
@@ -597,7 +761,7 @@ ${errors.map((error, index) => `${index + 1}. ${error}`).join('\n')}
                       </div>
                     )}
 
-{/* 메모리 섹션 완성 */}
+                    {/* 메모리 섹션 */}
                     {configuredComponents.memory.length > 0 && (
                       <div>
                         <h4 className="text-white font-medium mb-2">메모리</h4>
@@ -760,21 +924,20 @@ const ServeriaApp = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-// 개인정보 보호정책 페이지 표시
-if (showLegalModal === 'privacy') {
-  return <PrivacyPolicy onBack={() => setShowLegalModal(null)} />;
-}
+  // 개인정보 보호정책 페이지 표시
+  if (showLegalModal === 'privacy') {
+    return <PrivacyPolicy onBack={() => setShowLegalModal(null)} />;
+  }
 
-// 이용약관 페이지 표시  
-if (showLegalModal === 'terms') {
-  return <TermsOfService onBack={() => setShowLegalModal(null)} />;
-}
+  // 이용약관 페이지 표시  
+  if (showLegalModal === 'terms') {
+    return <TermsOfService onBack={() => setShowLegalModal(null)} />;
+  }
 
   // 쿠키 정책 페이지 표시
-if (showCookiePolicy) {
-  return <CookiePolicy onBack={() => setShowCookiePolicy(false)} />;
-}
-  
+  if (showCookiePolicy) {
+    return <CookiePolicy onBack={() => setShowCookiePolicy(false)} />;
+  }
   
   if (currentMode === 'builder') {
     return (
@@ -812,7 +975,7 @@ if (showCookiePolicy) {
     );
   }
 
-// Homepage 렌더링
+  // Homepage 렌더링
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 relative">
       {/* Navigation */}
@@ -846,22 +1009,22 @@ if (showCookiePolicy) {
               ))}
             </div>
 
-           <div className="hidden md:flex items-center space-x-4">
-            <button className="text-slate-300 hover:text-white transition-colors duration-200">
-            로그인
-            </button>
-            <button 
-              onClick={switchToBuilder}
-              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors duration-200 shadow-lg hover:shadow-blue-500/25"
-                >
-              무료 체험
+            <div className="hidden md:flex items-center space-x-4">
+              <button className="text-slate-300 hover:text-white transition-colors duration-200">
+                로그인
+              </button>
+              <button 
+                onClick={switchToBuilder}
+                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors duration-200 shadow-lg hover:shadow-blue-500/25"
+              >
+                무료 체험
               </button>
               <img 
-              src="/omniworks.png" 
-              alt="Omniworks Logo" 
-              className="h-8 w-auto ml-4"
-                />
-              </div>
+                src="/omniworks.png" 
+                alt="Omniworks Logo" 
+                className="h-8 w-auto ml-4"
+              />
+            </div>
 
             <button 
               className="md:hidden text-white transition-transform duration-200 hover:scale-110"
@@ -890,27 +1053,24 @@ if (showCookiePolicy) {
                   </button>
                 ))}
 
-<div className="flex flex-col space-y-2 pt-4 border-t border-white/10">
-  <button className="text-slate-300 hover:text-white transition-colors text-left duration-200">
-    로그인
-  </button>
-  <button 
-    onClick={switchToBuilder}
-    className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors duration-200"
-  >
-    무료 체험
-  </button>
-  <div className="pt-2">
-    <img 
-      src="/omniworks.png" 
-      alt="Omniworks Logo" 
-      className="h-6 w-auto"
-    />
-  </div>
-</div>
-
-
-                
+                <div className="flex flex-col space-y-2 pt-4 border-t border-white/10">
+                  <button className="text-slate-300 hover:text-white transition-colors text-left duration-200">
+                    로그인
+                  </button>
+                  <button 
+                    onClick={switchToBuilder}
+                    className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors duration-200"
+                  >
+                    무료 체험
+                  </button>
+                  <div className="pt-2">
+                    <img 
+                      src="/omniworks.png" 
+                      alt="Omniworks Logo" 
+                      className="h-6 w-auto"
+                    />
+                  </div>
+                </div>
               </div>
             </div>
           )}
@@ -1381,35 +1541,35 @@ if (showCookiePolicy) {
               </ul>
             </div>
 
-     <div>
-  <h4 className="text-white font-semibold mb-4">법적 고지</h4>
-  <ul className="space-y-2 text-slate-400">
-    <li>
-      <button 
-        onClick={() => setShowLegalModal('privacy')} 
-        className="hover:text-white transition-colors text-left"
-      >
-        개인정보 보호정책
-      </button>
-    </li>
-    <li>
-      <button 
-        onClick={() => setShowLegalModal('terms')} 
-        className="hover:text-white transition-colors text-left"
-      >
-        이용약관
-      </button>
-    </li>
-<li>
-  <button 
-    onClick={() => setShowCookiePolicy(true)} 
-    className="hover:text-white transition-colors text-left"
-  >
-    쿠키 정책
-  </button>
-</li>    
-  </ul>
-</div>
+            <div>
+              <h4 className="text-white font-semibold mb-4">법적 고지</h4>
+              <ul className="space-y-2 text-slate-400">
+                <li>
+                  <button 
+                    onClick={() => setShowLegalModal('privacy')} 
+                    className="hover:text-white transition-colors text-left"
+                  >
+                    개인정보 보호정책
+                  </button>
+                </li>
+                <li>
+                  <button 
+                    onClick={() => setShowLegalModal('terms')} 
+                    className="hover:text-white transition-colors text-left"
+                  >
+                    이용약관
+                  </button>
+                </li>
+                <li>
+                  <button 
+                    onClick={() => setShowCookiePolicy(true)} 
+                    className="hover:text-white transition-colors text-left"
+                  >
+                    쿠키 정책
+                  </button>
+                </li>    
+              </ul>
+            </div>
           </div>
 
           <div className="border-t border-white/10 pt-8 text-center">
