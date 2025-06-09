@@ -846,7 +846,7 @@ if (showCookiePolicy) {
               ))}
             </div>
 
-          <div className="hidden md:flex items-center space-x-4">
+       <div className="hidden md:flex items-center space-x-4">
   <button className="text-slate-300 hover:text-white transition-colors duration-200">
     로그인
   </button>
@@ -856,11 +856,6 @@ if (showCookiePolicy) {
   >
     무료 체험
   </button>
-  <img 
-    src="/omniworks.png" 
-    alt="Omniworks Logo" 
-    className="h-8 w-auto ml-4"
-  />
 </div>
 
             <button 
@@ -889,7 +884,7 @@ if (showCookiePolicy) {
                     {item.label}
                   </button>
                 ))}
-              <div className="flex flex-col space-y-2 pt-4 border-t border-white/10">
+          <div className="flex flex-col space-y-2 pt-4 border-t border-white/10">
   <button className="text-slate-300 hover:text-white transition-colors text-left duration-200">
     로그인
   </button>
@@ -899,13 +894,6 @@ if (showCookiePolicy) {
   >
     무료 체험
   </button>
-  <div className="pt-2">
-    <img 
-      src="/omniworks.png" 
-      alt="Omniworks Logo" 
-      className="h-6 w-auto"
-    />
-  </div>
 </div>
             </div>
           )}
