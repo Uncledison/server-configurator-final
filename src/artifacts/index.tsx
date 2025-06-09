@@ -1414,6 +1414,8 @@ if (showCookiePolicy) {
 
           <div className="border-t border-white/10 pt-8 text-center">
             <p className="text-slate-400">
+              서울특별시 마포구 마포대로92, A동 3층 (주)옴니웍스
+              사업자번호 211-88-35295 
               © 2025 Serveria. All rights reserved.
             </p>
           </div>
