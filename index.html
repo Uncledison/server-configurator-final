@@ -5,6 +5,22 @@
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Serveria</title>
+    <!-- ===== 여기부터 방어 스크립트 ===== -->
+    <script>
+      // 우클릭(컨텍스트 메뉴) 차단
+      document.addEventListener('contextmenu', e => e.preventDefault());
+      // F12, Ctrl+Shift+I/J/C 등 개발자 도구 단축키 차단
+      window.addEventListener('keydown', e => {
+        if (
+          e.key === 'F12' ||
+          (e.ctrlKey && e.shiftKey && ['I', 'J', 'C'].includes(e.key))
+        ) {
+          e.preventDefault();
+        }
+      });
+    </script>
+    <!-- ===== 여기까지 방어 스크립트 ===== -->
+    
   </head>
   <body>
     <div id="root"></div>
